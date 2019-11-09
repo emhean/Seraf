@@ -50,10 +50,11 @@ namespace Seraf.XNA.Tiled
             this.tileHeight = tileHeight;
             this.tileCount = tileCount;
             this.columns = columns;
-
-
             this.tile_data = new List<TTileData>(); // THIS MIGHT NOT BE GOOD CUZ WE WILL ADD STUFF OUTSIDE THIS CONSTRUCTOR
+        }
 
+        public void CreateClips()
+        {
             #region Tile clips
             List<Rectangle> tile_clips = new List<Rectangle>();
             int sq = (int)Math.Sqrt(tileCount);  // TO GET THE WIDTH AND SIZE CUZ ITS ALL SQUARED ANYWAYS

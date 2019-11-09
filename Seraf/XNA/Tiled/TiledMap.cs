@@ -165,7 +165,9 @@ namespace Seraf.XNA.Tiled
                     tileData = new TTileData(tile_id, tile_type, bounds.ToArray(), null, animations.ToArray(), tile_props);
                 }
 
+                tset.CreateClips();
                 this.tileSets.Add(tset);
+                
             }
             #endregion
 
