@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace NSECS
+namespace Seraf.XNA.NSECS
 {
     public abstract class Collider
     {

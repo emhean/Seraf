@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Seraf.ScriptingEngine
+namespace Seraf.XNA.Scripting
 {
     public class Script
     {

@@ -1,16 +1,27 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using System.Text;
 
-namespace Seraf
+namespace Seraf.XNA
 {
+    /// <summary>
+    /// (Singleton) Content pipeline that loads content.
+    /// </summary>
     public class ContentPipeline
     {
         ContentManager content;
+        public static ContentPipeline Instance { get; private set; }
 
-        public ContentPipeline(ContentManager content)
+
+        ContentPipeline(ContentManager content)
         {
             this.content = content;
         }
+
+        public static void CreateInstance(ContentManager content)
+        {
+            Instance = new ContentPipeline(content);
+        }
+        
 
         public T Load<T>(string asset)
         {

@@ -1,4 +1,4 @@
-﻿namespace NSECS
+﻿namespace Seraf.XNA.NSECS
 {
     public class Component
     {

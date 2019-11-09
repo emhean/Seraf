@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace Engine
+namespace Seraf.XNA
 {
     /// <summary>
     /// A global Random number generator.

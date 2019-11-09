@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace NSECS.Components
+namespace Seraf.XNA.NSECS.Components
 {
     public class Particle : Component
     {

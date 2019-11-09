@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace NSECS
+namespace Seraf.XNA.NSECS
 {
     public class Body
     {

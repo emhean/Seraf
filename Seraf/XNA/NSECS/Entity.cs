@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace NSECS
+namespace Seraf.XNA.NSECS
 {
     public class Entity
     {

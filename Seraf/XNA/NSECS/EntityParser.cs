@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using NSECS;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 
-namespace Seraf.ScriptingEngine
+namespace Seraf.XNA.NSECS
 {
     public class EntityParser
     {
-        Dictionary<string, Type> entityType_dict;
-
         static IEnumerable<Type> GetTypesWithHelpAttribute(Assembly assembly)
         {
             foreach (Type type in assembly.GetTypes())
@@ -22,6 +19,9 @@ namespace Seraf.ScriptingEngine
             }
         }
 
+        Dictionary<string, Type> entityType_dict;
+        public bool Debug { get; set; }
+
         public EntityParser()
         {
             entityType_dict = new Dictionary<string, Type>();
@@ -32,9 +32,12 @@ namespace Seraf.ScriptingEngine
                         entityType_dict.Add(blueprint.Type, type);
             }
 
-            // Debugging
-            foreach(var foo in entityType_dict)
-                Console.WriteLine(foo.Key + ", " + foo.Value);
+
+            if (Debug)// Debugging
+            {
+                foreach (var foo in entityType_dict)
+                    Console.WriteLine(foo.Key + ", " + foo.Value);
+            }
         }
 
 
@@ -43,7 +46,8 @@ namespace Seraf.ScriptingEngine
             var xml = new XmlDocument();
             xml.Load(filePath);
 
-            Console.WriteLine("*** Importing Entity ***");
+            if(Debug)// Debugging
+                Console.WriteLine("*** Importing Entity ***");
 
             string type = xml.DocumentElement.GetAttribute("type");
             int uuid = Convert.ToInt32(xml.DocumentElement.GetAttribute("id"));
@@ -56,12 +60,14 @@ namespace Seraf.ScriptingEngine
                 float.Parse(xml.DocumentElement.GetAttribute("width")),
                 float.Parse(xml.DocumentElement.GetAttribute("height")));
 
-            Console.WriteLine(type + ", " + uuid + ", " + pos + ", " + size);
+            if(Debug)// Debugging
+                Console.WriteLine(type + ", " + uuid + ", " + pos + ", " + size);
 
             Type t = entityType_dict[type];
             var ent = Activator.CreateInstance(t, uuid, pos, size);
 
-            Console.WriteLine("*** Importing Done ***"); 
+            if(Debug)// Debugging
+                Console.WriteLine("*** Importing Done ***"); 
 
             return (Entity)ent;
         }
