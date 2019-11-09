@@ -7,49 +7,44 @@ namespace Seraf.XNA
         float s = 100; // Speed
         KeyboardState keyboardState; // Keyboard State
 
-        public void Update(float delta)
-        {
-        }
-
         public void UpdateControls(float delta)
         {
-            s = 100 * delta;
             keyboardState = Keyboard.GetState();
 
             if (keyboardState.IsKeyDown(Keys.OemPeriod))
             {
-                _zoom += s;
+                _zoom += delta * 4;
             }
             else if (keyboardState.IsKeyDown(Keys.OemMinus))
             {
-                _zoom -= s;
+                _zoom -= delta * 4;
             }
 
             if (keyboardState.IsKeyDown(Keys.M))
             {
-                _rotation += s;
+                _rotation += delta;
             }
             else if (keyboardState.IsKeyDown(Keys.N))
             {
-                _rotation -= s;
+                _rotation -= delta;
             }
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                _pos.X -= s;
+                _pos.X -= delta * 100;
             }
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
-                _pos.X += s;
+                _pos.X += delta * 100;
             }
 
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                _pos.Y -= s;
+                _pos.Y -= delta * 100;
             }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
-                _pos.Y += s;
+                _pos.Y += delta * 100;
             }
         }
     }

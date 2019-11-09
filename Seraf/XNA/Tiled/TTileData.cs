@@ -11,10 +11,10 @@ namespace Seraf.XNA.Tiled
         public int anim_ms;
         public int tile_id;
 
-        public TTileDataAnim(int anim_ms, int tile_id)
+        public TTileDataAnim(int tile_id, int anim_ms)
         {
-            this.anim_ms = anim_ms;
             this.tile_id = tile_id;
+            this.anim_ms = anim_ms;
         }
     }
 

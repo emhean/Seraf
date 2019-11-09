@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Seraf.XNA;
 using Seraf.XNA.Tiled;
 using Seraf.XNA.NSECS;
+using Seraf.XNA.NSECS.Components;
 
 namespace Game1
 {
@@ -18,7 +19,8 @@ namespace Game1
 
         TiledMap map;
         Engine engine;
-        Camera2D cam;
+        Camera2DControlled cam;
+        Scene scene;
 
         public Game1()
         {
@@ -30,17 +32,38 @@ namespace Game1
         {
             ContentPipeline.CreateInstance(this.Content);
 
-            cam = new Camera2D();
             map = new TiledMap("testmap/");
+            engine = new Engine(map);
+            cam = new Camera2DControlled();
 
             base.Initialize();
         }
 
+        Entity mario;
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            scene = new Scene(GraphicsDevice, spriteBatch);
+
             map.Load("testmap.tmx");
+
+
+
+
+            mario = new Entity(0, new Vector2(70, 70), new Vector2(16, 21));
+
+            var anim = new SpriteAnim(mario, null);
+            var collider = new Collider(mario);
+
+            mario.AddComponent(anim);
+            mario.AddComponent(new Physics(mario));
+
+
+            mario.AddComponent(new Player(mario, anim, mario.GetComponent<Physics>(), collider));
+            mario.AddComponent(collider);
+
+            engine.AddEntity(mario);
         }
 
         protected override void UnloadContent()
@@ -49,6 +72,12 @@ namespace Game1
 
         protected override void Update(GameTime gameTime)
         {
+            engine.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            cam.UpdateControls((float)gameTime.ElapsedGameTime.TotalSeconds);
+            cam.Position = mario.pos + (mario.size / 2);
+
+
             base.Update(gameTime);
         }
 
@@ -63,24 +92,7 @@ namespace Game1
                 spriteBatch.Draw(layer.image.texture, layer.offset, Color.White * layer.opacity);
             }
 
-
-            for (int i = 0; i < map.tileLayers.Count; ++i)//for (int i = (map.tileLayers.Count - 1); i > -1; --i)
-            {
-                foreach (var tile in map.tileLayers[i].tiles)
-                {
-                    foreach (var ts in map.tileSets)
-                    {
-                        if (ts.IsTileIDPartOfSet(tile.id))
-                        {
-                            if (tile.id != 0)
-                            {
-                                spriteBatch.Draw(ts.image.texture, tile.rect, ts.tile_data[tile.id - ts.firstgid].clip[0], Color.White * map.tileLayers[i].Opacity);
-                            }
-                            //else spriteBatch.Draw(ts.image.texture, tile.rect, ts.tile_clips[tile.id], Color.White * map.tileLayers[i].Opacity);
-                        }
-                    }
-                }
-            }
+            engine.Render(scene);
 
 
             spriteBatch.End();

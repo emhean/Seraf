@@ -57,6 +57,7 @@ namespace Seraf.XNA.Tiled
         {
             #region Tile clips
             List<Rectangle> tile_clips = new List<Rectangle>();
+
             int sq = (int)Math.Sqrt(tileCount);  // TO GET THE WIDTH AND SIZE CUZ ITS ALL SQUARED ANYWAYS
             // START WITH CANCEROUS FIRST LINE CUZ IT FUCKS THE INDEXES
             // DONT FUCKING TOUCH THIS
@@ -73,7 +74,7 @@ namespace Seraf.XNA.Tiled
                 }
             }
             // ASSIGN THIS SCOPE LIST TO ARRAY
-            for (int i = 0; i < tile_clips.Count; ++i)
+            for (int i = 0; i < tile_data.Count; ++i)
                 tile_data[i].clip[0] = tile_clips[i];
 
             #endregion
@@ -94,6 +95,12 @@ namespace Seraf.XNA.Tiled
 
             return (tileid >= (this.firstgid - 1) && (tileid < this.firstgid + this.tileCount));
         }
+
+
+        //public TTileData GetTileData(int tileid)
+        //{
+
+        //}
 
 
         public override string ToString()

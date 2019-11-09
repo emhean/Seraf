@@ -124,7 +124,10 @@ namespace Seraf.XNA.Tiled
                     tset.SetImage(new TImage(tex, img.GetAttribute("source")));
                 }
 
-                List<TTileData> tile_datas = new List<TTileData>();
+
+                // Add Air
+                tset.tile_data.Add(new TTileData(0, "air", new Rectangle[] { Rectangle.Empty }, new Rectangle[] { Rectangle.Empty }, null, null));
+
                 foreach (XmlElement tile in tsx.DocumentElement.GetElementsByTagName("tile"))
                 {
                     TTileData tileData;
@@ -158,11 +161,14 @@ namespace Seraf.XNA.Tiled
                         {
                             animations.Add(new TTileDataAnim(
                                 int.Parse(frame.GetAttribute("tileid")), 
-                                int.Parse(frame.GetAttribute("ms"))));
+                                int.Parse(frame.GetAttribute("duration"))));
                         }
                     }
 
-                    tileData = new TTileData(tile_id, tile_type, bounds.ToArray(), null, animations.ToArray(), tile_props);
+                    tileData = new TTileData(tile_id, tile_type, bounds.ToArray(), 
+                        new Rectangle[] { Rectangle.Empty }, // We will use the CreateClips later to create this.
+                        animations.ToArray(), tile_props);
+                    tset.tile_data.Add(tileData);
                 }
 
                 tset.CreateClips();
@@ -307,7 +313,7 @@ namespace Seraf.XNA.Tiled
             {
                 foreach (XmlElement p in props.GetElementsByTagName("property"))
                 {
-                    tprops.AddProperty(props.GetAttribute("name"), props.GetAttribute("value"));
+                    tprops.AddProperty(p.GetAttribute("name"), p.GetAttribute("value"));
                 }
             }
 

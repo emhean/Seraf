@@ -1,68 +1,68 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
+﻿//using Microsoft.Xna.Framework;
+//using System;
+//using System.Collections.Generic;
 
-namespace Seraf.XNA.NSECS
-{
-    public class BoxCollider : Collider
-    {
-        Rectangle rect; // The "box". Position is set to the base class vector pos.
-        Entity entity;
+//namespace Seraf.XNA.NSECS
+//{
+//    public class BoxCollider : Collider
+//    {
+//        Rectangle rect; // The "box". Position is set to the base class vector pos.
+//        Entity entity;
 
-        public BoxCollider(Entity entity) : base()
-        {
-            this.entity = entity;
-            this.rect = new Rectangle((int)entity.pos.X, (int)entity.pos.Y, (int)entity.size.X, (int)entity.size.Y);
-        }
+//        public BoxCollider(Entity entity) : base()
+//        {
+//            this.entity = entity;
+//            this.rect = new Rectangle((int)entity.pos.X, (int)entity.pos.Y, (int)entity.size.X, (int)entity.size.Y);
+//        }
 
-        public BoxCollider(Entity entity, Vector2 pos, Vector2 size) : base()
-        {
-            this.entity = entity;
-            this.rect = new Rectangle((int)pos.X, (int)pos.Y, (int)size.X, (int)size.Y);
-        }
+//        public BoxCollider(Entity entity, Vector2 pos, Vector2 size) : base()
+//        {
+//            this.entity = entity;
+//            this.rect = new Rectangle((int)pos.X, (int)pos.Y, (int)size.X, (int)size.Y);
+//        }
 
-        public override void Update(float delta)
-        {
-            this.rect.X = (int)entity.pos.X;
-            this.rect.Y = (int)entity.pos.Y;
-
-
-            colliders.Clear();
+//        public override void Update(float delta)
+//        {
+//            this.rect.X = (int)entity.pos.X;
+//            this.rect.Y = (int)entity.pos.Y;
 
 
-            base.Update(delta);
-        }
-
-        public bool CheckIfColliding(BoxCollider other)
-            => (Rectangle.Intersect(rect, other.rect) != Rectangle.Empty);
+//            colliders.Clear();
 
 
-        List<BoxCollider> colliders = new List<BoxCollider>();
+//            base.Update(delta);
+//        }
 
-        public void UpdateCollision(BoxCollider other)
-        {
-            if (colliders.Contains(other))
-                return;
+//        public bool CheckIfColliding(BoxCollider other)
+//            => (Rectangle.Intersect(rect, other.rect) != Rectangle.Empty);
 
-            var isection = Rectangle.Intersect(rect, other.rect);
 
-            Console.WriteLine("!!! Collision !!!");
+//        List<BoxCollider> colliders = new List<BoxCollider>();
 
-            if (rect.Bottom > other.rect.Top)
-            {
-                rect.Y -= isection.Height;
-            }
-            else
-            {
-                rect.Y += isection.Height;
-            }
+//        public void UpdateCollision(BoxCollider other)
+//        {
+//            if (colliders.Contains(other))
+//                return;
 
-            colliders.Add(other);
-            other.colliders.Add(this);
+//            var isection = Rectangle.Intersect(rect, other.rect);
 
-            // Update the real position to the colliders adjusted position
-            entity.pos.X = rect.X;
-            entity.pos.Y = rect.Y;
-        }
-    }
-}
+//            Console.WriteLine("!!! Collision !!!");
+
+//            if (rect.Bottom > other.rect.Top)
+//            {
+//                rect.Y -= isection.Height;
+//            }
+//            else
+//            {
+//                rect.Y += isection.Height;
+//            }
+
+//            colliders.Add(other);
+//            other.colliders.Add(this);
+
+//            // Update the real position to the colliders adjusted position
+//            entity.pos.X = rect.X;
+//            entity.pos.Y = rect.Y;
+//        }
+//    }
+//}

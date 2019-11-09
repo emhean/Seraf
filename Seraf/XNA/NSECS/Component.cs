@@ -2,7 +2,12 @@
 {
     public class Component
     {
-        public Component() { }
+        //public Component() { }
+        public Component(Entity entity)
+        {
+            this.Entity = entity;
+        }
+
         public virtual void Update(float delta) { }
         public virtual void Render(Scene scene) { }
 

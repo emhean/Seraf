@@ -10,7 +10,7 @@ namespace Seraf.XNA.NSECS
         public Vector2 pos;
         public Vector2 size;
 
-        public Body body;
+        //public Body body;
 
         public List<Component> components;
 
@@ -75,14 +75,28 @@ namespace Seraf.XNA.NSECS
             component.SetEntity(this); // Add entity of component to this instance.
             this.components.Add(component);
         }
+
+        public T GetComponent<T>() where T : Component
+        {
+            for(int i = 0; i < components.Count; ++i)
+            {
+                if(components[i] is T)
+                {
+                    return (T)components[i];
+                }
+            }
+
+            return null;
+        }
+
         public void RemoveComponent(Component component)
         {
             this.components.Remove(component);
         }
 
-        public bool HasBody()
-        {
-            return (body != null);
-        }
+        //public bool HasBody()
+        //{
+        //    return (body != null);
+        //}
     }
 }
