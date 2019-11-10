@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using Seraf.XNA.Tiled;
 
 namespace Seraf.XNA.NSECS
 {
@@ -40,6 +41,12 @@ namespace Seraf.XNA.NSECS
             }
         }
 
+        public Entity CreateEntityFromTObject(TObject obj)
+        {
+            Type t = entityType_dict[obj.type];
+            var ent = Activator.CreateInstance(t, obj.id, obj.pos, obj.size);
+            return (Entity)ent;
+        }
 
         public Entity CreateEntityFromFile(string filePath)
         {

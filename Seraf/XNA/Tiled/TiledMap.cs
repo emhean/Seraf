@@ -134,7 +134,7 @@ namespace Seraf.XNA.Tiled
 
                     int tile_id = int.Parse(tile.GetAttribute("id"));
                     string tile_type = tile.GetAttribute("type");
-                    TProperties tile_props = LoadProperties(tile);
+                    TProperties tile_props = GetProperties(tile);
 
                     // Tile Collision Data
                     List<Rectangle> bounds = new List<Rectangle>();
@@ -220,23 +220,30 @@ namespace Seraf.XNA.Tiled
             tileLayers = new List<TTileLayer>();
 
             char[] char_sep = new char[] { ',' };
-            foreach (XmlElement layers_inXml in xml.DocumentElement.GetElementsByTagName("layer"))
+            foreach (XmlElement layer_inXml in xml.DocumentElement.GetElementsByTagName("layer"))
             {
-                int id = int.Parse(layers_inXml.GetAttribute("id"));
-                string name = layers_inXml.GetAttribute("name");
-                int width = int.Parse(layers_inXml.GetAttribute("width"));
-                int height = int.Parse(layers_inXml.GetAttribute("height"));
+                TTileLayer tileLayer;
 
-                foreach (XmlElement layer_data in layers_inXml.GetElementsByTagName("data"))
+                int id = int.Parse(layer_inXml.GetAttribute("id"));
+                string name = layer_inXml.GetAttribute("name");
+                int width = int.Parse(layer_inXml.GetAttribute("width"));
+                int height = int.Parse(layer_inXml.GetAttribute("height"));
+
+
+
+                // Create the instance
+                if (layer_inXml.HasAttribute("opacity"))
+                    tileLayer = new TTileLayer(id, name, "csv", width, height, float.Parse(layer_inXml.GetAttribute("opacity")));
+                else
+                    tileLayer = new TTileLayer(id, name, "csv", width, height);
+
+                // Get the properties
+                var foo = GetProperties(layer_inXml);
+                tileLayer.Properties = foo;
+
+                foreach (XmlElement layer_data in layer_inXml.GetElementsByTagName("data"))
                 {
                     string encoding = layer_data.GetAttribute("encoding");
-                    TTileLayer tileLayer;
-
-                    if (layer_data.HasAttribute("opacity"))
-                    {
-                        tileLayer = new TTileLayer(id, name, encoding, width, height, float.Parse(layer_data.GetAttribute("opacity")));
-                    }
-                    else tileLayer = new TTileLayer(id, name, encoding, width, height);
 
                     string[] str = layer_data.InnerXml.Split(char_sep, width * height);
                     TTile[,] tiles = new TTile[width, height];
@@ -255,6 +262,7 @@ namespace Seraf.XNA.Tiled
                     }
 
                     tileLayer.tiles = tiles;
+
                     this.tileLayers.Add(tileLayer);
                 }
 
@@ -284,7 +292,7 @@ namespace Seraf.XNA.Tiled
                     }
 
 
-                    TProperties props = LoadProperties(tobjects_inXml);
+                    TProperties props = GetProperties(tobjects_inXml);
 
                     //foreach (XmlElement props_tobject in tobjects_inXml.GetElementsByTagName("properties"))
                     //{
@@ -305,21 +313,35 @@ namespace Seraf.XNA.Tiled
             Console.WriteLine("### Done. ###");
         }
 
-        private TProperties LoadProperties(XmlElement xmlElement)
+        /// <summary>
+        /// Get the properties XML elements and return an instance containing the properties their values.
+        /// </summary>
+        private TProperties GetProperties(XmlElement xmlElement)
         {
             TProperties tprops = new TProperties();
+            //if (!xmlElement.GetElementsByTagName("properties"))
+            //    return tprops;
 
             foreach (XmlElement props in xmlElement.GetElementsByTagName("properties"))
             {
                 foreach (XmlElement p in props.GetElementsByTagName("property"))
                 {
-                    tprops.AddProperty(p.GetAttribute("name"), p.GetAttribute("value"));
+                    if(p.HasAttribute("type"))
+                        tprops.AddProperty(p.GetAttribute("name"), p.GetAttribute("value"), p.GetAttribute("type"));
+                    else tprops.AddProperty(p.GetAttribute("name"), p.GetAttribute("value"));
                 }
             }
 
             return tprops;
         }
 
-        public void Unload() { }
+
+        /// <summary>
+        /// Unload the map.
+        /// </summary>
+        public void Unload()
+        {
+
+        }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Seraf.XNA.Controls;
+using System.Collections.Generic;
 
 namespace Seraf.XNA.NSECS
 {
@@ -9,11 +12,13 @@ namespace Seraf.XNA.NSECS
         {
             this.GraphicsDevice = graphicsDevice;
             this.SpriteBatch = spriteBatch;
+            this.Controls = new List<Control>();
         }
 
-        //public Camera2D Camera;
+        public List<Control> Controls { get; set; } 
         public GraphicsDevice GraphicsDevice { get; }
         public SpriteBatch SpriteBatch { get; }
+        public Camera2D Camera { get; set; }
 
         public void Render(Texture2D tex, Vector2 pos, Rectangle clip, Color color, float rot, Vector2 orig, Vector2 scale, SpriteEffects effects, float layerDepth)
         {
@@ -32,6 +37,20 @@ namespace Seraf.XNA.NSECS
         //    SpriteBatch.Draw(entity.body.sprite.tex, d_rect, entity.body.sprite.clip,
         //        Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
         //}
+
+        public void Update(float delta)
+        {
+            foreach (var c in Controls)
+                c.Update(delta, Mouse.GetState());
+        }
+
+        public void RenderControls()
+        {
+            foreach(var c in Controls)
+            {
+                SpriteBatch.Draw(c.Texture, c.Bounds, Color.White);
+            }
+        }
 
         public void Clear()
         {

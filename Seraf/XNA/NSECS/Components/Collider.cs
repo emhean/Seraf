@@ -17,16 +17,24 @@ namespace Seraf.XNA.NSECS
 
         public override void Update(float delta)
         {
-            rect.X = (int)Entity.pos.X;
+            if (!Enabled)
+                return;
+
+            //rect.X = (int)Math.Ceiling(Entity.pos.X);
+            rect.X = (int)Math.Round(Entity.pos.X, 0);
+            //rect.Y = (int)Math.Round(Entity.pos.Y, 0);
+            //rect.Width = (int)Math.Round(Entity.size.X, 0);
+            //rect.Height = (int)Math.Round(Entity.size.Y, 0);
+
+            //rect.X = (int)Entity.pos.X;
             rect.Y = (int)Entity.pos.Y;
             rect.Width = (int)Entity.size.X;
             rect.Height = (int)Entity.size.Y;
-            //colliders.Clear();
         }
 
         public event EventHandler<CollisionArgs> Collided;
 
-        protected void OnCollided(CollisionArgs args)
+        public void OnCollided(CollisionArgs args)
         {
             Collided?.Invoke(this, args);
         }
@@ -62,8 +70,6 @@ namespace Seraf.XNA.NSECS
                     side = COLLISION_SIDE.Top;
             }
 
-            OnCollided(new CollisionArgs(side));
-
             return side;
         }
 
@@ -76,7 +82,7 @@ namespace Seraf.XNA.NSECS
 
         public override void Render(Scene scene)
         {
-            //scene.SpriteBatch.Draw(tex, rect, Color.Red);
+            scene.SpriteBatch.Draw(tex, rect, Color.Red * 0.2f);
         }
     }
 

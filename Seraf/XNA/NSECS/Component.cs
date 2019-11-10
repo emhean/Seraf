@@ -8,6 +8,8 @@
             this.Entity = entity;
         }
 
+        public bool Enabled { get; set; } = true;
+
         public virtual void Update(float delta) { }
         public virtual void Render(Scene scene) { }
 

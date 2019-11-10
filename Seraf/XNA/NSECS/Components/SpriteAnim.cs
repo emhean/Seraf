@@ -55,7 +55,10 @@ namespace Seraf.XNA.NSECS.Components
 
         public override void Render(Scene scene)
         {
-            scene.Render(Sprites[currentIndex].tex, Entity.pos, Sprites[currentIndex].clip, Color.White, 0f, Vector2.Zero, Vector2.One, spriteEffects, 0f);
+            //var drawPos = new Vector2((int)Entity.pos.X, (int)Entity.pos.Y);
+            var drawPos = Entity.pos;
+
+            scene.Render(Sprites[currentIndex].tex, drawPos, Sprites[currentIndex].clip, Color.White, 0f, Vector2.Zero, Vector2.One, spriteEffects, 0f);
         }
     }
 }

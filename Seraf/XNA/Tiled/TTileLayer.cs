@@ -18,7 +18,7 @@
 
         public TTile[,] tiles;
 
-        public TProperties Properties { get; }
+        public TProperties Properties { get; set; }
 
         public TTileLayer(int id, string name, string encoding, int width, int height)
         {

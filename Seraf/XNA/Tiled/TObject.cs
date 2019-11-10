@@ -31,7 +31,7 @@ namespace Seraf.XNA.Tiled
 
             sb.AppendLine("Properties:");
             foreach (var prop in Properties)
-                sb.AppendLine(string.Concat("key: ", prop.Key, ", value:", prop.Value));
+                sb.AppendLine(string.Concat("key: ", prop.Name, ", value:", prop.Value));
 
             return sb.ToString();
         }
