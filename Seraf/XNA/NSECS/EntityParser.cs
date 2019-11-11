@@ -45,9 +45,23 @@ namespace Seraf.XNA.NSECS
         {
             Type t = entityType_dict[obj.type];
             var ent = Activator.CreateInstance(t, obj.id, obj.pos, obj.size);
-            return (Entity)ent;
+
+            Entity _ent = (Entity)ent;
+            _ent.Properties = obj.Properties;
+            _ent.type = obj.type;
+            _ent.name = obj.name;
+            _ent.Initialize(); // Initialize
+
+            return _ent;
         }
 
+        public TObject CreateTObjectFromEntity(Entity entity)
+        {
+            TObject tobj = new TObject(entity.uuid, entity.name, entity.type, entity.pos, entity.size, entity.Properties);
+            return tobj;
+        }
+
+       
         public Entity CreateEntityFromFile(string filePath)
         {
             var xml = new XmlDocument();

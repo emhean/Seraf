@@ -1,11 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
+using Seraf.XNA.Tiled;
+using System;
 using System.Collections.Generic;
 
 namespace Seraf.XNA.NSECS
 {
-    public class Entity
+    public class Entity : ITiledProperties
     {
+        public TProperties Properties { get; set; } 
+
         public readonly int uuid;
+        public string type;
+        public string name;
 
         public Vector2 pos;
         public Vector2 size;
@@ -50,6 +56,7 @@ namespace Seraf.XNA.NSECS
             //        isCollidble = true;
             //}
         }
+
         public bool Expired;
 
 
@@ -57,6 +64,7 @@ namespace Seraf.XNA.NSECS
         {
             this.uuid = uuid;
             this.components = new List<Component>();
+            this.Properties = new TProperties();
 
             IsVisible = true;
             IsActive = true;
@@ -68,6 +76,13 @@ namespace Seraf.XNA.NSECS
         {
             this.pos = pos;
             this.size = size;
+        }
+
+        /// <summary>
+        /// Entity is initialized after when fully constructed.
+        /// </summary>
+        internal protected virtual void Initialize()
+        {
         }
 
         public void AddComponent(Component component)

@@ -55,6 +55,8 @@ namespace Game1
 
             map.Load("testmap.tmx");
 
+            Console.WriteLine();
+
             mario = new Entity(0, new Vector2(70, 70), new Vector2(16, 21));
 
             var anim = new SpriteAnim(mario, null);
@@ -85,7 +87,6 @@ namespace Game1
             var tex = ContentPipeline.Instance.Load<Texture2D>("sprites/button");
             var button = new Button(new Rectangle(50, 50, tex.Width * 2, tex.Height * 2), string.Empty);
             button.Texture = tex;
-
             button.Clicked += delegate (object o, EventArgs e)
             {
                 mario.pos = spawn.pos;
@@ -95,6 +96,32 @@ namespace Game1
                 
             };
             scene.Controls.Add(button);
+
+            var tex_save = ContentPipeline.Instance.Load<Texture2D>("sprites/save");
+            var button_save = new Button(new Rectangle(50, 60 + tex.Height + tex_save.Height, tex_save.Width * 2, tex_save.Height * 2), string.Empty);
+            button_save.Texture = tex_save;
+            button_save.Clicked += delegate (object o, EventArgs e)
+            {
+                //Vector2 spawn_pos = spawn.pos;
+                spawn.pos = mario.pos;
+
+                var entityParser = new EntityParser();
+                foreach (var groups in map.objectGroups)
+                {
+                    foreach (var ent in engine.entities)
+                    {
+                        for(int i = 0; i < groups.objects.Count; ++i)
+                        {
+                            if(ent.uuid.Equals(groups.objects[i].id))
+                                groups.objects[i] = entityParser.CreateTObjectFromEntity(ent);
+                        }
+                    }
+                }
+
+
+                map.Save("testmap.tmx");
+            };
+            scene.Controls.Add(button_save);
 
 
             mario.pos = spawn.pos;

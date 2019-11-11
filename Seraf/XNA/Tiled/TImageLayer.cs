@@ -8,10 +8,12 @@ namespace Seraf.XNA.Tiled
         public TImage image;
         public float opacity;
         public Vector2 offset;
+        public string name;
 
-        public TImageLayer(int id, TImage image, Vector2 offset, float opacity)
+        public TImageLayer(int id, string name, TImage image, Vector2 offset, float opacity)
         {
             this.id = id;
+            this.name = name;
             this.image = image;
             this.offset = offset;
             this.opacity = opacity;
