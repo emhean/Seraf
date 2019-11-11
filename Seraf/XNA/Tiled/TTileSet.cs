@@ -50,32 +50,42 @@ namespace Seraf.XNA.Tiled
             this.tileHeight = tileHeight;
             this.tileCount = tileCount;
             this.columns = columns;
+
+            // TODO:  Change the tile_data = new List<TTIleData>() into a parameter
             this.tile_data = new List<TTileData>(); // THIS MIGHT NOT BE GOOD CUZ WE WILL ADD STUFF OUTSIDE THIS CONSTRUCTOR
         }
 
-        public void CreateClips()
+
+        // TODO:  Move this method into the Load() method of tiled map 
+        public void CreateClips() 
         {
             #region Tile clips
             List<Rectangle> tile_clips = new List<Rectangle>();
 
-            int sq = (int)Math.Sqrt(tileCount);  // TO GET THE WIDTH AND SIZE CUZ ITS ALL SQUARED ANYWAYS
+            int sq = this.columns; //(int)Math.Sqrt(tileCount);  // TO GET THE WIDTH AND SIZE CUZ ITS ALL SQUARED ANYWAYS
             // START WITH CANCEROUS FIRST LINE CUZ IT FUCKS THE INDEXES
             // DONT FUCKING TOUCH THIS
-            for (int i = 0; i < sq; ++i)
-            {
-                tile_clips.Add(new Rectangle(tileWidth * i, 0, tileWidth, tileHeight));
-            }
+
+            //for (int i = 0; i < sq; ++i)
+            //{
+            //    tile_clips.Add(new Rectangle(i * tileWidth, 0, tileWidth, tileHeight));
+            //}
+
             // THE REST OF THE LINES CUZ IT WORKS
-            for (int row = 1; row < sq; ++row)
+            for (int row = 0; row < sq; ++row)
             {
                 for (int col = 0; col < sq; ++col)
                 {
-                    tile_clips.Add(new Rectangle(tileWidth * col, tileHeight * row, tileWidth, tileHeight));
+                    tile_clips.Add(new Rectangle(col * tileWidth, row * tileHeight, tileWidth, tileHeight));
                 }
             }
             // ASSIGN THIS SCOPE LIST TO ARRAY
-            for (int i = 0; i < tile_data.Count; ++i)
+            for (int i = 0; i < tile_clips.Count; ++i)
+            {
+                // Assign clip
                 tile_data[i].clip[0] = tile_clips[i];
+            }
+
 
             #endregion
         }

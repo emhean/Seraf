@@ -65,6 +65,16 @@
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>
  </tile>
+ <tile id="10">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="8" height="8"/>
+  </objectgroup>
+ </tile>
+ <tile id="11">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="8" height="8"/>
+  </objectgroup>
+ </tile>
  <tile id="12" type="Destroyable">
   <properties>
    <property name="Tag" value="Test Tag"/>
@@ -74,6 +84,16 @@
   </objectgroup>
  </tile>
  <tile id="13" type="Destroyable">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="8" height="8"/>
+  </objectgroup>
+ </tile>
+ <tile id="14">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="8" height="8"/>
+  </objectgroup>
+ </tile>
+ <tile id="15">
   <objectgroup draworder="index">
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>

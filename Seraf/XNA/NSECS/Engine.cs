@@ -326,8 +326,15 @@ namespace Seraf.XNA.NSECS
                         {
                             if (tile.id != 0)
                             {
-                                //            SpriteBatch.Draw(tex, pos, clip, color, rot, orig, effects, layerDepth);
-                                scene.Render(ts.image.texture, tile.rect, ts.tile_data[tile.id - ts.firstgid].clip[0], (Color.White * map.tileLayers[i].Opacity), 0f, Vector2.Zero, SpriteEffects.None, 0f);
+                                int id = (tile.id - ts.firstgid);
+                                if (id < 0)
+                                    id = 0;
+
+                                scene.Render(
+                                    ts.image.texture,
+                                    tile.rect,
+                                    ts.tile_data[id].clip[0],
+                                    (Color.White * map.tileLayers[i].Opacity), 0f, Vector2.Zero, SpriteEffects.None, 0f);
                             }
                             //else spriteBatch.Draw(ts.image.texture, tile.rect, ts.tile_clips[tile.id], Color.White * map.tileLayers[i].Opacity);
                         }

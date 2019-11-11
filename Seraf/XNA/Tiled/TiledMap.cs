@@ -208,9 +208,14 @@ namespace Seraf.XNA.Tiled
                         }
                     }
 
-                    tileData = new TTileData(tile_id, tile_type, bounds.ToArray(), 
+                    tileData = new TTileData(
+                        tile_id, 
+                        tile_type, 
+                        bounds.ToArray(), 
                         new Rectangle[] { Rectangle.Empty }, // We will use the CreateClips later to create this.
-                        animations.ToArray(), tile_props);
+                        animations.ToArray(),
+                        tile_props);
+
                     tset.tile_data.Add(tileData);
                 }
 
