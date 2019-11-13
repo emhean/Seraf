@@ -11,13 +11,13 @@ namespace Seraf.XNA.NSECS
     public class Engine
     {
         public List<Entity> entities;
-        public TiledMap map;
+        public TTileMap map;
 
         UUID _uuid;
 
         public Scene Scene { get; set; }
 
-        public Engine(TiledMap map)
+        public Engine(TTileMap map)
         {
             this.map = map;
             this.entities = new List<Entity>();
@@ -85,7 +85,7 @@ namespace Seraf.XNA.NSECS
                     if(entities[i].components[j].Enabled)
                         entities[i].components[j].Update(delta);
 
-                    if (entities[i].components[j].Expired) // Remove expired components
+                    if (entities[i].components[j].IsExpired) // Remove expired components
                     {
                         entities[i].RemoveComponent(entities[i].components[j]);
                     }

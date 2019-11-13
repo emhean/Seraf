@@ -16,50 +16,16 @@ namespace Seraf.XNA.NSECS
         public Vector2 pos;
         public Vector2 size;
 
-        //public Body body;
-
         public List<Component> components;
 
-        bool isVisible;
-        public bool IsVisible
-        {
-            get => isVisible;
-            set => isVisible = value;
-            //get
-            //{
-            //    return isVisible;
-            //}
-            //set
-            //{
-            //    if (body.sprite == null)
-            //        isVisible = false;
-
-            //}
-        }
         public bool IsActive; // If updated
+        bool isVisible, isCollidble;
 
-        bool isCollidble;
-        public bool IsCollidble
-        {
-            get => isCollidble;
-            set => isCollidble = value;
-            //get
-            //{
-            //    return isCollidble;
-            //}
-            //set {
-            //    if (body.collider == null)
-            //    {
-            //        isCollidble = false;
-            //    }
-            //    else
-            //        isCollidble = true;
-            //}
-        }
-
+        public bool IsVisible { get => isVisible; set => isVisible = value; }
+        public bool IsCollidble { get => isCollidble; set => isCollidble = value; }
         public bool Expired;
 
-
+        Entity() { }
         public Entity(int uuid)
         {
             this.uuid = uuid;
@@ -85,12 +51,13 @@ namespace Seraf.XNA.NSECS
         {
         }
 
+
+        #region Get/Set Component stuff
         public void AddComponent(Component component)
         {
             component.SetEntity(this); // Add entity of component to this instance.
             this.components.Add(component);
         }
-
         public T GetComponent<T>() where T : Component
         {
             for(int i = 0; i < components.Count; ++i)
@@ -103,15 +70,17 @@ namespace Seraf.XNA.NSECS
 
             return null;
         }
-
         public void RemoveComponent(Component component)
         {
             this.components.Remove(component);
         }
+        #endregion
 
-        //public bool HasBody()
-        //{
-        //    return (body != null);
-        //}
+
+        public Vector2 GetCenter() => new Vector2(pos.X + size.X / 2, pos.Y + size.Y / 2);
+        public Vector2 GetRight() => new Vector2(pos.X + size.X, pos.Y + size.Y / 2);
+        public Vector2 GetLeft() => new Vector2(pos.X, pos.Y + size.Y / 2);
+        public Vector2 GetTop() => new Vector2(pos.X + size.X / 2, pos.Y);
+        public Vector2 GetBottom() => new Vector2(pos.X + size.X / 2, pos.Y + size.Y);
     }
 }

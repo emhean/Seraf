@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Seraf.XNA.Collision;
 using System;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace Seraf.XNA.NSECS
 {
+    [ComponentBlueprint("collider")]
     public class Collider : Component
     {
         public Rectangle rect;
@@ -13,6 +15,18 @@ namespace Seraf.XNA.NSECS
         public Collider(Entity entity) : base(entity)
         {
             rect = new Rectangle((int)entity.pos.X, (int)entity.pos.Y, (int)entity.size.X, (int)entity.size.Y);
+        }
+
+        public override void Initialize(XmlElement e)
+        {
+            foreach(XmlElement eve in e.GetElementsByTagName("event"))
+            {
+                if (eve.GetAttribute("name").Equals("Collided"))
+                    if (eve.GetAttribute("invoke").Equals("GetPushed"))
+                        this.Collided += GetPushed;
+
+
+            }
         }
 
         public override void Update(float delta)
@@ -38,6 +52,23 @@ namespace Seraf.XNA.NSECS
         {
             Collided?.Invoke(this, args);
         }
+
+
+        private void GetPushed(object sender, CollisionArgs e)
+        {
+            if (e.Side == COLLISION_SIDE.Left)
+            {
+                this.Entity.pos.X += 1;
+            }
+            else if (e.Side == COLLISION_SIDE.Right)
+            {
+                this.Entity.pos.X -= 1;
+            }
+
+            this.Update(0.16f);
+        }
+
+
 
         /// <summary>
         /// AABB math to get side of intersection.
@@ -79,7 +110,6 @@ namespace Seraf.XNA.NSECS
         public COLLISION_SIDE GetIntersectionSide(Collider other) => GetIntersectionSide(other.rect);
 
         Texture2D tex = ContentPipeline.Instance.Load<Texture2D>("sprites/box");
-
         public override void Render(Scene scene)
         {
             scene.SpriteBatch.Draw(tex, rect, Color.Red * 0.2f);

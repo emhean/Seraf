@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace Seraf.XNA.Tiled
 {
-    public class TiledMap : ITiledProperties
+    public class TTileMap : ITiledProperties
     {
         public enum MapRenderOrders { None, Right_Down }
         public enum MapOrientations { None, Orthogonal }
@@ -68,7 +68,7 @@ namespace Seraf.XNA.Tiled
         /// Creates a new map instance at target folder.
         /// </summary>
         /// <param name="folderPath">The path to the folder.</param>
-        public TiledMap(string folderPath)
+        public TTileMap(string folderPath)
         {
             this.folderPath = folderPath;
         }
@@ -88,8 +88,8 @@ namespace Seraf.XNA.Tiled
                 foreach (XmlElement p in props.GetElementsByTagName("property"))
                 {
                     if (p.HasAttribute("type"))
-                        tprops.AddProperty(p.GetAttribute("name"), p.GetAttribute("value"), p.GetAttribute("type"));
-                    else tprops.AddProperty(p.GetAttribute("name"), p.GetAttribute("value"));
+                        tprops.Add(p.GetAttribute("name"), p.GetAttribute("value"), p.GetAttribute("type"));
+                    else tprops.Add(p.GetAttribute("name"), p.GetAttribute("value"));
                 }
             }
 

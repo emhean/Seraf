@@ -57,6 +57,7 @@
     <Compile Include="ECS\System.cs" />
     <Compile Include="Experimental\Boomerang\Boomerang.cs" />
     <Compile Include="Experimental\Boomerang\BoomerangActor.cs" />
+    <Compile Include="Experimental\ParticleEmitter.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XNA\Collision\CollisionArgs.cs" />
@@ -67,12 +68,17 @@
     <Compile Include="XNA\NSECS\Blueprints\Crate.cs" />
     <Compile Include="XNA\NSECS\Body.cs" />
     <Compile Include="XNA\NSECS\Collider\BoxCollider.cs" />
+    <Compile Include="XNA\NSECS\ComponentParser.cs" />
     <Compile Include="XNA\NSECS\Components\Collider.cs" />
     <Compile Include="XNA\NSECS\Component.cs" />
     <Compile Include="XNA\NSECS\Components\Particle.cs" />
     <Compile Include="XNA\ContentPipeline.cs" />
     <Compile Include="XNA\NSECS\Components\Physics.cs" />
     <Compile Include="XNA\NSECS\Components\Player.cs" />
+    <Compile Include="XNA\NSECS\ComponentBlueprint.cs" />
+    <Compile Include="XNA\AttributeDictionary.cs" />
+    <Compile Include="XNA\NSECS\EntityBuilder.cs" />
+    <Compile Include="XNA\SpriteData.cs" />
     <Compile Include="XNA\NSECS\Engine.cs" />
     <Compile Include="XNA\NSECS\Entity.cs" />
     <Compile Include="XNA\NSECS\EntityParser.cs" />
@@ -93,7 +99,7 @@
     <Compile Include="XNA\Tiled\TProperties.cs" />
     <Compile Include="XNA\Tiled\TTileData.cs" />
     <Compile Include="XNA\Tiled\TTileSet.cs" />
-    <Compile Include="XNA\Tiled\TiledMap.cs" />
+    <Compile Include="XNA\Tiled\TTileMap.cs" />
     <Compile Include="XNA\Tiled\TImage.cs" />
     <Compile Include="XNA\Tiled\TImageLayer.cs" />
     <Compile Include="XNA\Tiled\TObject.cs" />

@@ -25,6 +25,18 @@
 /processorParam:Quality=Best
 /build:bgm/underground.wav
 
+#begin entities/Coin.xml
+/copy:entities/Coin.xml
+
+#begin entities/Coin_static.xml
+/copy:entities/Coin_static.xml
+
+#begin entities/Crate.xml
+/copy:entities/Crate.xml
+
+#begin entities/Spawn.xml
+/copy:entities/Spawn.xml
+
 #begin sfx/smw_jump.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

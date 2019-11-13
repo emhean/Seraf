@@ -1,8 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using System.Xml;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Seraf.XNA.NSECS.Components
 {
+    [ComponentBlueprint("anim")]
     public class SpriteAnim : Component
     {
         public Sprite[] Sprites { get; private set; }
@@ -19,6 +22,23 @@ namespace Seraf.XNA.NSECS.Components
             this.Sprites = sprites;
             this.currentIndex = 0;
             this.animSpeed = 10;
+        }
+
+        public override void Initialize(XmlElement e)
+        {
+            var tex = ContentPipeline.Instance.Load<Texture2D>(e.GetAttribute("texture"));
+            List<Sprite> sprites = new List<Sprite>();
+
+            foreach(XmlElement sprite in e.GetElementsByTagName("sprite"))
+            {
+                sprites.Add(new Sprite(this.Entity, tex, new Rectangle(
+                    int.Parse(sprite.GetAttribute("x")),
+                    int.Parse(sprite.GetAttribute("y")),
+                    int.Parse(sprite.GetAttribute("width")),
+                    int.Parse(sprite.GetAttribute("height")))));
+            }
+
+            this.Sprites = sprites.ToArray();
         }
 
         public void SetSprites(Sprite[] sprites)
@@ -56,9 +76,9 @@ namespace Seraf.XNA.NSECS.Components
         public override void Render(Scene scene)
         {
             //var drawPos = new Vector2((int)Entity.pos.X, (int)Entity.pos.Y);
-            var drawPos = Entity.pos;
+            //var drawPos = Entity.pos;
 
-            scene.Render(Sprites[currentIndex].tex, drawPos, Sprites[currentIndex].clip, Color.White, 0f, Vector2.Zero, Vector2.One, spriteEffects, 0f);
+            scene.Render(Sprites[currentIndex].tex, Entity.pos, Sprites[currentIndex].clip, Color.White, 0f, Vector2.Zero, Vector2.One, spriteEffects, 0f);
         }
     }
 }

@@ -5,11 +5,11 @@ namespace Seraf.XNA.NSECS
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
     public class EntityBlueprint : Attribute
     {
-        public EntityBlueprint(string type)
+        public EntityBlueprint(string typeName)
         {
-            this.Type = type;
+            this.TypeName = typeName;
         }
 
-        public string Type { get; }
+        public string TypeName { get; }
     }
 }

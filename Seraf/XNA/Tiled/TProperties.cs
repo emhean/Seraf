@@ -161,12 +161,17 @@ namespace Seraf.XNA.Tiled
             throw new Exception("Property does not exist!");
         }
 
-        public void AddProperty(string name, string value)
+        //internal void Add(object obj)
+        //{
+        //    properties.Add(new TProperty());
+        //}
+
+        public void Add(string name, string value)
         {
             properties.Add(new TProperty(name, value));
         }
 
-        public void AddProperty(string name, string value, string valueType)
+        public void Add(string name, string value, string valueType)
         {
             properties.Add(new TProperty(name, value, valueType));
         }

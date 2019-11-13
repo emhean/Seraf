@@ -1,14 +1,20 @@
-﻿namespace Seraf.XNA.NSECS
+﻿using System;
+using System.Xml;
+
+namespace Seraf.XNA.NSECS
 {
     public class Component
     {
-        //public Component() { }
         public Component(Entity entity)
         {
             this.Entity = entity;
         }
 
+        public virtual void Initialize(XmlElement e) { } // TODO: Make internal
+
         public bool Enabled { get; set; } = true;
+
+        public event EventHandler BeforeExpired, AfterExpired;
 
         public virtual void Update(float delta) { }
         public virtual void Render(Scene scene) { }
@@ -21,11 +27,13 @@
         /// <summary>
         /// If this is true then the component is expired and will be removed. Use Expire() to set true.
         /// </summary>
-        public bool Expired { get; private set; }
+        public bool IsExpired { get; private set; }
 
         public void Expire()
         {
-            this.Expired = true;
+            BeforeExpired?.Invoke(this, EventArgs.Empty);
+            IsExpired = true;
+            AfterExpired?.Invoke(this, EventArgs.Empty);
         }
         
         /// <summary>

@@ -4,7 +4,6 @@ namespace Seraf.XNA
 {
     public class Camera2DControlled : Camera2D
     {
-        float s = 100; // Speed
         KeyboardState keyboardState; // Keyboard State
 
         public void UpdateControls(float delta)

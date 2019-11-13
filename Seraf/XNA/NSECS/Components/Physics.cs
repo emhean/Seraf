@@ -2,6 +2,7 @@
 
 namespace Seraf.XNA.NSECS.Components
 {
+    [ComponentBlueprint("physics")]
     public class Physics : Component
     {
         public Physics(Entity entity) : base(entity)

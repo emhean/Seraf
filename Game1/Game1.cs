@@ -6,7 +6,6 @@ using Seraf.XNA;
 using Seraf.XNA.Tiled;
 using Seraf.XNA.NSECS;
 using Seraf.XNA.NSECS.Components;
-using Seraf.XNA.NSECS.Blueprints;
 using Seraf.XNA.Controls;
 using System;
 
@@ -20,7 +19,7 @@ namespace Game1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        TiledMap map;
+        TTileMap map;
         Engine engine;
         Camera2DControlled cam;
         Scene scene;
@@ -30,22 +29,28 @@ namespace Game1
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Window.AllowAltF4 = true;
+            Window.IsBorderless = true;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 960;
+            graphics.ApplyChanges();
         }
 
         protected override void Initialize()
         {
             ContentPipeline.CreateInstance(this.Content);
 
-            map = new TiledMap("testmap/");
+            map = new TTileMap("testmap/");
             engine = new Engine(map);
             cam = new Camera2DControlled();
             cam.Zoom = 3f;
+
 
             base.Initialize();
         }
 
         Entity mario;
-        Spawn spawn;
+        Vector2 spawn;
 
         protected override void LoadContent()
         {
@@ -54,8 +59,6 @@ namespace Game1
             scene = new Scene(GraphicsDevice, spriteBatch);
 
             map.Load("testmap.tmx");
-
-            Console.WriteLine();
 
             mario = new Entity(0, new Vector2(70, 70), new Vector2(16, 21));
 
@@ -67,19 +70,29 @@ namespace Game1
             mario.AddComponent(collider);
             mario.AddComponent(new Player(mario, anim, phys, collider));
             mario.AddComponent(anim);
+            mario.AddComponent(new Seraf.Experimental.ParticleEmitter(mario));
+
+
+
+            //var foo = new EntityParser();
+            //foo.Save(mario, "ent_test");
+
             engine.AddEntity(mario);
 
-            var parser = new EntityParser();
+            var builder = new EntityBuilder();
             foreach(var e in map.objectGroups)
             {
                 foreach(var o in e.objects)
                 {
-                    var ent = parser.CreateEntityFromTObject(o);
+                    //var ent = parser.CreateEntityFromTObject(o);
+
+                    var ent = builder.BuildFromFile(o, "Content/entities/" + o.type);
+
                     engine.AddEntity(ent);
 
-                    if (ent is Spawn spawn)
+                    if (ent.type.Equals("Spawn"))// is Spawn spawn)
                     {
-                       this.spawn = spawn;
+                       this.spawn = ent.pos;
                     }
                 }
             }
@@ -89,7 +102,7 @@ namespace Game1
             button.Texture = tex;
             button.Clicked += delegate (object o, EventArgs e)
             {
-                mario.pos = spawn.pos;
+                mario.pos = spawn;
 
                 var p = mario.GetComponent<Player>();
                 p.Respawn();
@@ -103,7 +116,7 @@ namespace Game1
             button_save.Clicked += delegate (object o, EventArgs e)
             {
                 //Vector2 spawn_pos = spawn.pos;
-                spawn.pos = mario.pos;
+                spawn = mario.pos;
 
                 var entityParser = new EntityParser();
                 foreach (var groups in map.objectGroups)
@@ -122,9 +135,6 @@ namespace Game1
                 map.Save("testmap.tmx");
             };
             scene.Controls.Add(button_save);
-
-
-            mario.pos = spawn.pos;
         }
 
         protected override void UnloadContent()
@@ -137,6 +147,9 @@ namespace Game1
 
             cam.UpdateControls((float)gameTime.ElapsedGameTime.TotalSeconds);
             
+            if(Keyboard.GetState().IsKeyDown(Keys.F))
+                graphics.ToggleFullScreen();
+
             //var pos = new Vector2((int)mario.pos.X, (int)mario.pos.Y);
 
             cam.Position = mario.pos + (mario.size / 2);

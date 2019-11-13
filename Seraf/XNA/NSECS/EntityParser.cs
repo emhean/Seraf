@@ -4,46 +4,75 @@ using System.Xml;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Seraf.XNA.Tiled;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Seraf.XNA.NSECS
 {
-    public class EntityParser
+    public class EntityParser : TypeDictionary<EntityBlueprint>
     {
-        static IEnumerable<Type> GetTypesWithHelpAttribute(Assembly assembly)
-        {
-            foreach (Type type in assembly.GetTypes())
-            {
-                if (type.GetCustomAttributes(typeof(EntityBlueprint), true).Length > 0)
-                {
-                    yield return type;
-                }
-            }
-        }
-
-        Dictionary<string, Type> entityType_dict;
-        public bool Debug { get; set; }
-
         public EntityParser()
         {
-            entityType_dict = new Dictionary<string, Type>();
-            foreach (var type in GetTypesWithHelpAttribute(System.Reflection.Assembly.GetExecutingAssembly()))
+            foreach(var type in this.EnumerateTypes())
             {
                 foreach (var att in Attribute.GetCustomAttributes(type))
                     if (att is EntityBlueprint blueprint)
-                        entityType_dict.Add(blueprint.Type, type);
+                    dict.Add(blueprint.TypeName, type);
             }
 
-
-            if (Debug)// Debugging
+            if (Debug) // Debugging
             {
-                foreach (var foo in entityType_dict)
+                foreach (var foo in dict)
                     Console.WriteLine(foo.Key + ", " + foo.Value);
             }
         }
 
+
+        #region Shit
+        //public static string SerializeToXml(object obj)
+        //{
+        //    XmlSerializer serializer = new XmlSerializer(obj.GetType());
+        //    using (StringWriter writer = new StringWriter())
+        //    {
+        //        serializer.Serialize(writer, obj);
+        //        return writer.ToString();
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Saves an entity to a xml file.
+        ///// </summary>
+        //public void Save(Entity entity, string fileName)
+        //{
+        //    using (var writer = new System.IO.StreamWriter(fileName))
+        //    {
+        //        var type = entity.GetType();
+
+        //        var serializer = new XmlSerializer(type);
+        //        serializer.Serialize(writer, this);
+        //        writer.Flush();
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Load en entity from a XML file.
+        ///// </summary>
+        //public Entity Load(string fileName, string type)
+        //{
+        //    using (var stream = System.IO.File.OpenRead(fileName))
+        //    {
+        //        var t = this.GetTypeFromString(type);
+
+        //        var serializer = new XmlSerializer(t.GetType());
+        //        return (Entity)serializer.Deserialize(stream);
+        //    }
+        //}
+        #endregion
+
+
         public Entity CreateEntityFromTObject(TObject obj)
         {
-            Type t = entityType_dict[obj.type];
+            Type t = dict[obj.type];
             var ent = Activator.CreateInstance(t, obj.id, obj.pos, obj.size);
 
             Entity _ent = (Entity)ent;
@@ -55,13 +84,14 @@ namespace Seraf.XNA.NSECS
             return _ent;
         }
 
+
         public TObject CreateTObjectFromEntity(Entity entity)
         {
             TObject tobj = new TObject(entity.uuid, entity.name, entity.type, entity.pos, entity.size, entity.Properties);
             return tobj;
         }
 
-       
+
         public Entity CreateEntityFromFile(string filePath)
         {
             var xml = new XmlDocument();
@@ -84,7 +114,7 @@ namespace Seraf.XNA.NSECS
             if(Debug)// Debugging
                 Console.WriteLine(type + ", " + uuid + ", " + pos + ", " + size);
 
-            Type t = entityType_dict[type];
+            Type t = dict[type];
             var ent = Activator.CreateInstance(t, uuid, pos, size);
 
             if(Debug)// Debugging
