@@ -34,7 +34,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,6 +60,7 @@
     <Compile Include="Experimental\ParticleEmitter.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XNA\Camera\Camera2DCutscene.cs" />
     <Compile Include="XNA\Collision\CollisionArgs.cs" />
     <Compile Include="XNA\Collision\COLLISION_SIDE.cs" />
     <Compile Include="XNA\Controls\Button.cs" />
@@ -88,8 +89,8 @@
     <Compile Include="XNA\NSECS\UUID.cs" />
     <Compile Include="XNA\Rng.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="XNA\Camera2D.cs" />
-    <Compile Include="XNA\Camera2DControlled.cs" />
+    <Compile Include="XNA\Camera\Camera2D.cs" />
+    <Compile Include="XNA\Camera\Camera2DControlled.cs" />
     <Compile Include="XNA\Collision\Body.cs" />
     <Compile Include="XNA\Collision\CircleRenderer.cs" />
     <Compile Include="XNA\Extensions\RectangleExtensions.cs" />

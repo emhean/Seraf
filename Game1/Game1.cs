@@ -8,6 +8,8 @@ using Seraf.XNA.NSECS;
 using Seraf.XNA.NSECS.Components;
 using Seraf.XNA.Controls;
 using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Game1
 {
@@ -21,6 +23,11 @@ namespace Game1
 
         TTileMap map;
         Engine engine;
+
+        Entity mario;
+        Vector2 spawn;
+
+        List<Camera2DCutscene> camera2DCutscenes;
         Camera2DControlled cam;
         Scene scene;
 
@@ -30,7 +37,7 @@ namespace Game1
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Window.AllowAltF4 = true;
-            Window.IsBorderless = true;
+            //Window.IsBorderless = true;
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 960;
             graphics.ApplyChanges();
@@ -42,15 +49,14 @@ namespace Game1
 
             map = new TTileMap("testmap/");
             engine = new Engine(map);
+
+
             cam = new Camera2DControlled();
             cam.Zoom = 3f;
-
+            camera2DCutscenes = new List<Camera2DCutscene>();
 
             base.Initialize();
         }
-
-        Entity mario;
-        Vector2 spawn;
 
         protected override void LoadContent()
         {
@@ -71,26 +77,16 @@ namespace Game1
             mario.AddComponent(new Player(mario, anim, phys, collider));
             mario.AddComponent(anim);
             mario.AddComponent(new Seraf.Experimental.ParticleEmitter(mario));
-
-
-
-            //var foo = new EntityParser();
-            //foo.Save(mario, "ent_test");
-
-            engine.AddEntity(mario);
+            engine.AddEntity(mario); // Add player
 
             var builder = new EntityBuilder();
             foreach(var e in map.objectGroups)
             {
                 foreach(var o in e.objects)
                 {
-                    //var ent = parser.CreateEntityFromTObject(o);
-
                     var ent = builder.BuildFromFile(o, "Content/entities/" + o.type);
-
                     engine.AddEntity(ent);
-
-                    if (ent.type.Equals("Spawn"))// is Spawn spawn)
+                    if (ent.type.Equals("Spawn"))
                     {
                        this.spawn = ent.pos;
                     }
@@ -115,8 +111,7 @@ namespace Game1
             button_save.Texture = tex_save;
             button_save.Clicked += delegate (object o, EventArgs e)
             {
-                //Vector2 spawn_pos = spawn.pos;
-                spawn = mario.pos;
+                spawn = mario.pos; // Set current position to new spawn position.
 
                 var entityParser = new EntityParser();
                 foreach (var groups in map.objectGroups)
@@ -141,20 +136,53 @@ namespace Game1
         {
         }
 
+        KeyboardState keyboardState, prev_keyboardState;
+
         protected override void Update(GameTime gameTime)
         {
-            engine.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            keyboardState = Keyboard.GetState();
 
+            engine.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             cam.UpdateControls((float)gameTime.ElapsedGameTime.TotalSeconds);
             
-            if(Keyboard.GetState().IsKeyDown(Keys.F))
+
+            if(keyboardState.IsKeyDown(Keys.F) && prev_keyboardState.IsKeyUp(Keys.F))
                 graphics.ToggleFullScreen();
 
-            //var pos = new Vector2((int)mario.pos.X, (int)mario.pos.Y);
 
-            cam.Position = mario.pos + (mario.size / 2);
+
+            if (keyboardState.IsKeyDown(Keys.C) && prev_keyboardState.IsKeyUp(Keys.C))
+            {
+                if(camera2DCutscenes.Count == 0)
+                {
+                    Camera2DCutscene cutscene = new Camera2DCutscene(cam, spawn);
+                    cutscene.DestinationReached += delegate (object o, EventArgs e)
+                    {
+                        var soundEffect = ContentPipeline.Instance.Load<SoundEffect>("bgm/solution");
+                        soundEffect.Play();
+                    };
+                    camera2DCutscenes.Add(cutscene);
+                }
+            }
+
+
+            if (camera2DCutscenes.Count == 0)
+            {
+                cam.Position = mario.pos + (mario.size / 2);
+            }
+            else
+            {
+                camera2DCutscenes[0].UpdatePosition((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                if (camera2DCutscenes[0].Finished)
+                {
+                    camera2DCutscenes.RemoveAt(0);
+                }
+            }
+
+
+
             scene.Camera = cam;
-
             scene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             var p = mario.GetComponent<Physics>();
@@ -162,6 +190,7 @@ namespace Game1
 
             Window.Title = string.Format("isJumping={0}, isFalling={1}, jump={2}", p.isJumping, p.isFalling, p.jump);
 
+            prev_keyboardState = keyboardState;
             base.Update(gameTime);
         }
 

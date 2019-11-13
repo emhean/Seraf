@@ -211,3 +211,9 @@
 #begin testmap/testmap.tmx
 /copy:testmap/testmap.tmx
 
+#begin bgm/solution.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:bgm/solution.wav
+

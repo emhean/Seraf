@@ -17,6 +17,7 @@ namespace Seraf.XNA.NSECS
 
         public Scene Scene { get; set; }
 
+
         public Engine(TTileMap map)
         {
             this.map = map;
