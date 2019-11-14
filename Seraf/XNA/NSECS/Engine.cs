@@ -83,8 +83,10 @@ namespace Seraf.XNA.NSECS
             {
                 for (int j = 0; j < entities[i].components.Count; ++j)
                 {
-                    if(entities[i].components[j].Enabled)
+                    if (entities[i].components[j].Enabled)
+                    {
                         entities[i].components[j].Update(delta);
+                    }
 
                     if (entities[i].components[j].IsExpired) // Remove expired components
                     {
@@ -96,11 +98,11 @@ namespace Seraf.XNA.NSECS
                     this.RemoveEntity(entities[i].uuid);
             }
 
+
             for (int i = 0; i < entities.Count; ++i)
             {
                 Collider collider = entities[i].GetComponent<Collider>();
                 Physics phys = entities[i].GetComponent<Physics>();
-
 
                 #region Tile Collision
                 if (phys != null)
@@ -276,36 +278,49 @@ namespace Seraf.XNA.NSECS
 
                         COLLISION_SIDE side = collider.GetIntersectionSide(other);
 
-                        other.OnCollided(new CollisionArgs(side));
+                        if (side != COLLISION_SIDE.None)
+                        {
+                            other.OnCollided(new CollisionArgs(side));
 
-                        if (side == COLLISION_SIDE.Top)
-                        {
-                            entities[i].pos.Y -= intersection.Height;
-                            collider.OnCollided(new CollisionArgs(side));
-                            collider.Update(delta);
-                            continue;
-                        }
-                        else if (side == COLLISION_SIDE.Bottom)
-                        {
-                            entities[i].pos.Y += (intersection.Height);
-                            collider.OnCollided(new CollisionArgs(side));
-                            collider.Update(delta);
-                            continue;
-                        }
+                            var collectible = entities[j].GetComponent<Collectible>();
+                            if (collectible != null)
+                            {
+                                var inv = entities[i].GetComponent<Inventory>();
+                                if (inv != null)
+                                {
+                                    inv.AddToInventory(collectible);
+                                }
+                            }
 
-                        if (side == COLLISION_SIDE.Left)
-                        {
-                            entities[i].pos.X -= intersection.Width;
-                            collider.OnCollided(new CollisionArgs(side));
-                            collider.Update(delta);
-                            continue;
-                        }
-                        else if (side == COLLISION_SIDE.Right) 
-                        {
-                            entities[i].pos.X += intersection.Width;
-                            collider.OnCollided(new CollisionArgs(side));
-                            collider.Update(delta);
-                            continue;
+                            if (side == COLLISION_SIDE.Top)
+                            {
+                                entities[i].pos.Y -= intersection.Height;
+                                collider.OnCollided(new CollisionArgs(side));
+                                collider.Update(delta);
+                                continue;
+                            }
+                            else if (side == COLLISION_SIDE.Bottom)
+                            {
+                                entities[i].pos.Y += (intersection.Height);
+                                collider.OnCollided(new CollisionArgs(side));
+                                collider.Update(delta);
+                                continue;
+                            }
+
+                            if (side == COLLISION_SIDE.Left)
+                            {
+                                entities[i].pos.X -= intersection.Width;
+                                collider.OnCollided(new CollisionArgs(side));
+                                collider.Update(delta);
+                                continue;
+                            }
+                            else if (side == COLLISION_SIDE.Right)
+                            {
+                                entities[i].pos.X += intersection.Width;
+                                collider.OnCollided(new CollisionArgs(side));
+                                collider.Update(delta);
+                                continue;
+                            }
                         }
                     }
                 }

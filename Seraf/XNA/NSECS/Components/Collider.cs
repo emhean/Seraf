@@ -22,9 +22,13 @@ namespace Seraf.XNA.NSECS
             foreach(XmlElement eve in e.GetElementsByTagName("event"))
             {
                 if (eve.GetAttribute("name").Equals("Collided"))
+                {
                     if (eve.GetAttribute("invoke").Equals("GetPushed"))
                         this.Collided += GetPushed;
-
+                    else if (eve.GetAttribute("invoke").Equals("GetCollected"))
+                        this.Collided += GetCollected;
+                }
+                    
 
             }
         }
@@ -68,6 +72,13 @@ namespace Seraf.XNA.NSECS
             this.Update(0.16f);
         }
 
+        private void GetCollected(object sender, CollisionArgs e)
+        {
+            if(e.Side != COLLISION_SIDE.None)
+            {
+
+            }
+        }
 
 
         /// <summary>

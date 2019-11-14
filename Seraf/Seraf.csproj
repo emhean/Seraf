@@ -34,7 +34,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -65,19 +65,22 @@
     <Compile Include="XNA\Collision\COLLISION_SIDE.cs" />
     <Compile Include="XNA\Controls\Button.cs" />
     <Compile Include="XNA\Controls\Control.cs" />
-    <Compile Include="XNA\NSECS\Blueprints\Coin.cs" />
-    <Compile Include="XNA\NSECS\Blueprints\Crate.cs" />
-    <Compile Include="XNA\NSECS\Body.cs" />
-    <Compile Include="XNA\NSECS\Collider\BoxCollider.cs" />
+    <Compile Include="XNA\Controls\ControlGroup.cs" />
+    <Compile Include="XNA\Controls\Text.cs" />
+    <Compile Include="XNA\NSECS\Components\Collectible.cs" />
+    <Compile Include="XNA\Unused\Blueprints\Coin.cs" />
+    <Compile Include="XNA\Unused\Blueprints\Crate.cs" />
+    <Compile Include="XNA\Unused\Body.cs" />
+    <Compile Include="XNA\Unused\Collider\BoxCollider.cs" />
     <Compile Include="XNA\NSECS\ComponentParser.cs" />
     <Compile Include="XNA\NSECS\Components\Collider.cs" />
     <Compile Include="XNA\NSECS\Component.cs" />
-    <Compile Include="XNA\NSECS\Components\Particle.cs" />
+    <Compile Include="XNA\Unused\Particle.cs" />
     <Compile Include="XNA\ContentPipeline.cs" />
     <Compile Include="XNA\NSECS\Components\Physics.cs" />
     <Compile Include="XNA\NSECS\Components\Player.cs" />
     <Compile Include="XNA\NSECS\ComponentBlueprint.cs" />
-    <Compile Include="XNA\AttributeDictionary.cs" />
+    <Compile Include="XNA\TypeDictionary.cs" />
     <Compile Include="XNA\NSECS\EntityBuilder.cs" />
     <Compile Include="XNA\SpriteData.cs" />
     <Compile Include="XNA\NSECS\Engine.cs" />
@@ -94,8 +97,8 @@
     <Compile Include="XNA\Collision\Body.cs" />
     <Compile Include="XNA\Collision\CircleRenderer.cs" />
     <Compile Include="XNA\Extensions\RectangleExtensions.cs" />
-    <Compile Include="XNA\NSECS\Blueprints\Spawn.cs" />
-    <Compile Include="XNA\NSECS\EntityBlueprint.cs" />
+    <Compile Include="XNA\Unused\Blueprints\Spawn.cs" />
+    <Compile Include="XNA\Unused\EntityBlueprint.cs" />
     <Compile Include="XNA\Scripting\Script.cs" />
     <Compile Include="XNA\Tiled\TProperties.cs" />
     <Compile Include="XNA\Tiled\TTileData.cs" />
@@ -107,6 +110,9 @@
     <Compile Include="XNA\Tiled\TObjectGroup.cs" />
     <Compile Include="XNA\Tiled\TTile.cs" />
     <Compile Include="XNA\Tiled\TTileLayer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="XNA\NSECS\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

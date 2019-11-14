@@ -26,6 +26,7 @@ namespace Game1
 
         Entity mario;
         Vector2 spawn;
+        public SpriteFont Font_UI { get; private set; }
 
         List<Camera2DCutscene> camera2DCutscenes;
         Camera2DControlled cam;
@@ -47,7 +48,7 @@ namespace Game1
         {
             ContentPipeline.CreateInstance(this.Content);
 
-            map = new TTileMap("testmap/");
+            map = new TTileMap("maps/testmap/");
             engine = new Engine(map);
 
 
@@ -63,9 +64,9 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             scene = new Scene(GraphicsDevice, spriteBatch);
+            this.Font_UI = ContentPipeline.Instance.Load<SpriteFont>("fonts/ui");
 
             map.Load("testmap.tmx");
-
             mario = new Entity(0, new Vector2(70, 70), new Vector2(16, 21));
 
             var anim = new SpriteAnim(mario, null);
@@ -76,7 +77,10 @@ namespace Game1
             mario.AddComponent(collider);
             mario.AddComponent(new Player(mario, anim, phys, collider));
             mario.AddComponent(anim);
-            mario.AddComponent(new Seraf.Experimental.ParticleEmitter(mario));
+            //mario.AddComponent(new Seraf.Experimental.ParticleEmitter(mario));
+
+            mario.AddComponent(new Inventory(mario));
+
             engine.AddEntity(mario); // Add player
 
             var builder = new EntityBuilder();
@@ -84,51 +88,78 @@ namespace Game1
             {
                 foreach(var o in e.objects)
                 {
-                    var ent = builder.BuildFromFile(o, "Content/entities/" + o.type);
+                    var ent = builder.CreateFromFile(o, "Content/entities/" + o.type);
                     engine.AddEntity(ent);
                     if (ent.type.Equals("Spawn"))
                     {
-                       this.spawn = ent.pos;
+                        this.spawn = ent.pos;
+                        this.mario.pos = spawn;
                     }
                 }
             }
 
             var tex = ContentPipeline.Instance.Load<Texture2D>("sprites/button");
-            var button = new Button(new Rectangle(50, 50, tex.Width * 2, tex.Height * 2), string.Empty);
-            button.Texture = tex;
-            button.Clicked += delegate (object o, EventArgs e)
-            {
-                mario.pos = spawn;
+            var tex_hover = ContentPipeline.Instance.Load<Texture2D>("sprites/button_hover");
+            var tex_click = ContentPipeline.Instance.Load<Texture2D>("sprites/button_click");
 
+            var button_respawn = new Button(new Text(Font_UI,
+                new Rectangle(0, 0, 0, 0), "Respawn"), new Rectangle(50, 50, tex.Width * 2, tex.Height * 2))
+            {
+                Texture = tex,
+            };
+
+            button_respawn.Text.Parent = button_respawn;
+            button_respawn.Text.TextAlignX = TextAlignX.Center;
+            button_respawn.Text.TextAlignY = TextAlignY.Center;
+
+            button_respawn.CursorEnter += (object o, EventArgs e) => button_respawn.Texture = tex_hover;
+            button_respawn.CursorLeave += (object o, EventArgs e) => button_respawn.Texture = tex;
+            button_respawn.ClickHold += (object o, EventArgs e) => button_respawn.Texture = tex_click;
+            button_respawn.Clicked += delegate (object o, EventArgs e)
+            {
+                button_respawn.Texture = tex;
+
+                mario.pos = spawn;
                 var p = mario.GetComponent<Player>();
                 p.Respawn();
-                
             };
-            scene.Controls.Add(button);
 
-            var tex_save = ContentPipeline.Instance.Load<Texture2D>("sprites/save");
-            var button_save = new Button(new Rectangle(50, 60 + tex.Height + tex_save.Height, tex_save.Width * 2, tex_save.Height * 2), string.Empty);
-            button_save.Texture = tex_save;
+
+            var button_save = new Button(new Text(Font_UI, new Rectangle(0, 0, 0, 0), "Save"),
+                new Rectangle(50, 60 + tex.Height + tex.Height, tex.Width * 2, tex.Height * 2))
+            {
+                Texture = tex
+            };
+            button_save.Text.Parent = button_save;
+            button_save.Text.TextAlignX = TextAlignX.Center;
+            button_save.Text.TextAlignY = TextAlignY.Center;
+
+
+            button_save.CursorEnter += (object o, EventArgs e) => button_save.Texture = tex_hover;
+            button_save.CursorLeave += (object o, EventArgs e) => button_save.Texture = tex;
+            button_save.ClickHold += (object o, EventArgs e) => button_save.Texture = tex_click;
             button_save.Clicked += delegate (object o, EventArgs e)
             {
-                spawn = mario.pos; // Set current position to new spawn position.
+                button_save.Texture = tex;
 
-                var entityParser = new EntityParser();
+                spawn = mario.pos; // Set current position to new spawn position.
+                var entityParser = new EntityBuilder();
                 foreach (var groups in map.objectGroups)
                 {
                     foreach (var ent in engine.entities)
                     {
-                        for(int i = 0; i < groups.objects.Count; ++i)
+                        for (int i = 0; i < groups.objects.Count; ++i)
                         {
-                            if(ent.uuid.Equals(groups.objects[i].id))
-                                groups.objects[i] = entityParser.CreateTObjectFromEntity(ent);
+                            if (ent.uuid.Equals(groups.objects[i].id))
+                                groups.objects[i] = entityParser.CreateTObject(ent);
                         }
                     }
                 }
-
-
                 map.Save("testmap.tmx");
             };
+
+
+            scene.Controls.Add(button_respawn);
             scene.Controls.Add(button_save);
         }
 

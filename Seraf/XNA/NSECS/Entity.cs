@@ -22,6 +22,15 @@ namespace Seraf.XNA.NSECS
         bool isVisible, isCollidble;
 
         public bool IsVisible { get => isVisible; set => isVisible = value; }
+
+        public event EventHandler BeforeExpired, AfterExpired;
+        internal void Expire()
+        {
+            BeforeExpired?.Invoke(this, EventArgs.Empty);
+            Expired = true;
+            AfterExpired?.Invoke(this, EventArgs.Empty);
+        }
+
         public bool IsCollidble { get => isCollidble; set => isCollidble = value; }
         public bool Expired;
 

@@ -19,23 +19,105 @@
 /processorParam:Quality=Best
 /build:bgm/death.wav
 
+#begin bgm/solution.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:bgm/solution.wav
+
 #begin bgm/underground.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:bgm/underground.wav
 
+#begin entities/Actor.xml
+/copy:entities/Actor.xml
+
 #begin entities/Coin.xml
 /copy:entities/Coin.xml
-
-#begin entities/Coin_static.xml
-/copy:entities/Coin_static.xml
 
 #begin entities/Crate.xml
 /copy:entities/Crate.xml
 
+#begin entities/Item.xml
+/copy:entities/Item.xml
+
 #begin entities/Spawn.xml
 /copy:entities/Spawn.xml
+
+#begin fonts/ui.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/ui.spritefont
+
+#begin maps/testmap/tes_bricks.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:maps/testmap/tes_bricks.png
+
+#begin maps/testmap/tes_overworld.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:maps/testmap/tes_overworld.png
+
+#begin maps/testmap/tes_overworld.tsx
+/copy:maps/testmap/tes_overworld.tsx
+
+#begin maps/testmap/tes_overworld_grass.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:maps/testmap/tes_overworld_grass.png
+
+#begin maps/testmap/tes_overworld_grass.tsx
+/copy:maps/testmap/tes_overworld_grass.tsx
+
+#begin maps/testmap/tes_underground.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:maps/testmap/tes_underground.png
+
+#begin maps/testmap/tes_underground.tsx
+/copy:maps/testmap/tes_underground.tsx
+
+#begin maps/testmap/testmap - Copy.tmx
+/copy:maps/testmap/testmap - Copy.tmx
+
+#begin maps/testmap/testmap.tmx
+/copy:maps/testmap/testmap.tmx
+
+#begin maps/testmap/testmap_2.tmx
+/copy:maps/testmap/testmap_2.tmx
 
 #begin sfx/smw_jump.wav
 /importer:WavImporter
@@ -79,6 +161,30 @@
 /processorParam:TextureFormat=Color
 /build:sprites/button.png
 
+#begin sprites/button_click.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/button_click.png
+
+#begin sprites/button_hover.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/button_hover.png
+
 #begin sprites/coin.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,6 +221,18 @@
 /processorParam:TextureFormat=Color
 /build:sprites/death.png
 
+#begin sprites/flame.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/flame.png
+
 #begin sprites/jungle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -139,18 +257,6 @@
 /processorParam:TextureFormat=Color
 /build:sprites/mario.png
 
-#begin sprites/save.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:sprites/save.png
-
 #begin sprites/sky.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -162,58 +268,4 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/sky.png
-
-#begin testmap/tes_overworld.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:testmap/tes_overworld.png
-
-#begin testmap/tes_overworld.tsx
-/copy:testmap/tes_overworld.tsx
-
-#begin testmap/tes_overworld_grass.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:testmap/tes_overworld_grass.png
-
-#begin testmap/tes_overworld_grass.tsx
-/copy:testmap/tes_overworld_grass.tsx
-
-#begin testmap/tes_underground.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:testmap/tes_underground.png
-
-#begin testmap/tes_underground.tsx
-/copy:testmap/tes_underground.tsx
-
-#begin testmap/testmap.tmx
-/copy:testmap/testmap.tmx
-
-#begin bgm/solution.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:bgm/solution.wav
 

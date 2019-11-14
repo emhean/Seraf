@@ -43,10 +43,16 @@ namespace Seraf.XNA.NSECS
 
         public void RenderControls()
         {
-            foreach(var c in Controls)
-            {
-                SpriteBatch.Draw(c.Texture, c.Bounds, Color.White);
-            }
+            //SpriteBatch.Draw(c.Texture, c.Bounds, Color.White);
+
+            //if (c is Button button)
+            //{
+            //    SpriteBatch.DrawString(button.Text.Font, button.Text, button.Text.GetVector2(), Color.Black);
+            //}
+
+            foreach (var c in Controls)
+                c.Draw(SpriteBatch);
+            
         }
 
         public void Clear()
