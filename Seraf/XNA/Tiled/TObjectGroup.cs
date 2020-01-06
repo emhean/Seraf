@@ -1,23 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Seraf.XNA.Tiled
 {
+    [Serializable()]
+    [XmlType("objectgroup")]
     public class TObjectGroup : ITiledProperties
     {
+        [XmlAttribute("id")]
         public int id;
+
+        [XmlAttribute("name")]
         public string name;
 
+        [XmlElement("object")]
         public List<TObject> objects;
 
-        public TObjectGroup(int id, string name)
-        {
-            this.id = id;
-            this.name = name;
-            this.objects = new List<TObject>();
-        }
-
-        public TProperties Properties { get; }
+        [XmlElement("properties")]
+        public TProperties Properties { get; set; }
 
         public override string ToString()
         {

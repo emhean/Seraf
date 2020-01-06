@@ -43,6 +43,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controls\InventoryButton.cs" />
+    <Compile Include="Controls\Messagebox.cs" />
+    <Compile Include="FileMenu\FileMenu.cs" />
+    <Compile Include="FileMenu\FileMenuArgs.cs" />
+    <Compile Include="FileMenu\FileMenuChoice.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,59 +1,83 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Seraf.XNA.Tiled
 {
-    //A tileset usually looks like:
-    //<tileset version="1.2" tiledversion="1.2.5" name="tes_overworld" tilewidth="8" tileheight="8" tilecount="16" columns="4">
-    //<image source="tes_overworld.png" width="32" height="32"/>
-    //<tile id = "0" type="Grass">
-    // <objectgroup draworder = "index" >
-    //  < object id="1" x="0" y="0" width="8" height="8"/>
-    // </objectgroup>
-    // <animation>
-    //  <frame tileid = "0" duration="300"/>
-    //  <frame tileid = "1" duration="300"/>
-    //  <frame tileid = "2" duration="300"/>
-    //  <frame tileid = "3" duration="300"/>
-    // </animation>
-    //</tile>
-    //</tileset>
+    [Serializable]
+    [XmlType("tileset")]
+    /// <summary>
+    /// A Tiled tileset.
+    /// </summary>
     public class TTileSet : ITiledProperties
     {
-        public string name;
+        // Note on how this class is serialized:
+        // First the element is serialized in the map file. This element has only two
+        //  attributes (firstgid and source). A *.tsx file is then loaded, where
+        // the star (*.tsx) is the source attribute of this class.
+        // That being said: This class contains the attributes for that source file.
 
-        public string source;
-        public int firstgid; // First grid id. id 1 == 0, so offset by 1.
+        #region Fields
+        public TTileSet()
+        {
+            //image = new TImage();
+            tile_data = new List<TTileData>();
+        }
 
-        public int tileWidth;
-        public int tileHeight;
-        public int tileCount;
-        public int columns;
-
-        public TImage image;
 
         /// <summary>
-        /// The collisions of this tileset.
+        /// First grid id.
         /// </summary>
+        [XmlAttribute("firstgid")]
+        public int firstgid; // First grid id. id 1 == 0, so offset by 1.
+
+        /// <summary>
+        /// Tileset source file (*.tsx).
+        /// </summary>
+        [XmlAttribute("source")]
+        public string source;
+
+        [XmlAttribute("name")]
+        public string name;
+
+        /// <summary>
+        /// Width of a tile.
+        /// </summary>
+        [XmlAttribute("tilewidth")]
+        public int tileWidth;
+
+        /// <summary>
+        /// Height of a tile.
+        /// </summary>
+        [XmlAttribute("tileheight")]
+        public int tileHeight;
+
+        /// <summary>
+        /// The n amount of tiles in this set.
+        /// </summary>
+        [XmlAttribute("tilecount")]
+        public int tileCount;
+
+        /// <summary>
+        /// The n amount of columns in set.
+        /// </summary>
+        [XmlAttribute("columns")]
+        public int columns;
+
+        /// <summary>
+        /// The image file element of this tileset.
+        /// </summary>
+        [XmlElement("image")]
+        public TImage image;
+
+        [XmlElement("tile")]
         public List<TTileData> tile_data;
-        //public List<Rectangle> tile_clips;
 
-        public TProperties Properties { get; }
+        [XmlElement("properties")]
+        public TProperties Properties { get; set; } = new TProperties();
 
-        public TTileSet(string source, int firstgid, string name, int tileWidth, int tileHeight, int tileCount, int columns)
-        {
-            this.source = source;
-            this.firstgid = firstgid;
-            this.name = name;
-            this.tileWidth = tileWidth;
-            this.tileHeight = tileHeight;
-            this.tileCount = tileCount;
-            this.columns = columns;
-
-            // TODO:  Change the tile_data = new List<TTIleData>() into a parameter
-            this.tile_data = new List<TTileData>(); // THIS MIGHT NOT BE GOOD CUZ WE WILL ADD STUFF OUTSIDE THIS CONSTRUCTOR
-        }
+        #endregion
 
 
         // TODO:  Move this method into the Load() method of tiled map 
@@ -66,13 +90,13 @@ namespace Seraf.XNA.Tiled
             // START WITH CANCEROUS FIRST LINE CUZ IT FUCKS THE INDEXES
             // DONT FUCKING TOUCH THIS
 
-            //for (int i = 0; i < sq; ++i)
-            //{
-            //    tile_clips.Add(new Rectangle(i * tileWidth, 0, tileWidth, tileHeight));
-            //}
+            for (int i = 0; i < sq; ++i)
+            {
+                tile_clips.Add(new Rectangle(i * tileWidth, 0, tileWidth, tileHeight));
+            }
 
             // THE REST OF THE LINES CUZ IT WORKS
-            for (int row = 0; row < sq; ++row)
+            for (int row = 1; row < sq; ++row)
             {
                 for (int col = 0; col < sq; ++col)
                 {
@@ -83,12 +107,13 @@ namespace Seraf.XNA.Tiled
             for (int i = 0; i < tile_clips.Count; ++i)
             {
                 // Assign clip
-                tile_data[i].clip[0] = tile_clips[i];
+                this.tile_data[i].clip = tile_clips[i];
             }
 
 
             #endregion
         }
+
 
         public void SetImage(TImage image)
         {
@@ -100,18 +125,14 @@ namespace Seraf.XNA.Tiled
         /// </summary>
         public bool IsTileIDPartOfSet(int tileid)
         {
-            //if (tileid == 0 && this.firstgid == 1)
-            //    return true;
-
             return (tileid >= (this.firstgid - 1) && (tileid < this.firstgid + this.tileCount));
         }
 
 
-        //public TTileData GetTileData(int tileid)
-        //{
-
-        //}
-
+        public TTileData GetTileData(int tileid)
+        {
+            return this.tile_data[tileid];
+        }
 
         public override string ToString()
         {

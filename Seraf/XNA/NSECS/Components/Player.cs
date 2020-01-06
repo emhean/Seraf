@@ -18,9 +18,8 @@ namespace Seraf.XNA.NSECS.Components
         SpriteAnim spriteAnim;
         Collider collider;
         bool still = true;
-
+        bool death;
         Sprite[] anim_still, anim_walk, anim_jump, anim_fall, anim_death;
-
         SoundEffectInstance bgm, sfx_jump;
 
         public Player(Entity entity, SpriteAnim spriteAnim, Physics physics, Collider collider) : base(entity)
@@ -73,6 +72,7 @@ namespace Seraf.XNA.NSECS.Components
             collider.Collided += CheckCollision;
         }
 
+
         private void CheckCollision(object sender, CollisionArgs e)
         {
             if (death)
@@ -118,13 +118,13 @@ namespace Seraf.XNA.NSECS.Components
             //}
         }
 
-        bool death;
+
 
         public void Kill()
         {
             death = true;
-            physics.Enabled = false;
-            collider.Enabled = false;
+            physics.IsActive = false;
+            collider.IsActive = false;
 
             bgm.Stop();
             bgm.Dispose();
@@ -132,12 +132,11 @@ namespace Seraf.XNA.NSECS.Components
             bgm.Volume = 1f;
             bgm.Play();
         }
-
         public void Respawn()
         {
             death = false;
-            physics.Enabled = true;
-            collider.Enabled = true;
+            physics.IsActive = true;
+            collider.IsActive = true;
 
             physics.Land();
             physics.lethalFall = false;
@@ -157,10 +156,23 @@ namespace Seraf.XNA.NSECS.Components
         }
 
 
+        private void DebugMethod()
+        {
+            if (kstate.IsKeyDown(Keys.W))
+            {
+                spriteAnim.SetSprites(anim_jump);
+                physics.ForceJump();
+            }
+        }
         public override void Update(float delta)
         {
             prev_kstate = kstate;
             kstate = Keyboard.GetState();
+
+            if(DebugMode)
+            {
+                DebugMethod();
+            }
 
             if (death)
             {
@@ -174,7 +186,6 @@ namespace Seraf.XNA.NSECS.Components
                 Kill();
             }
 
-
             if (kstate.IsKeyDown(Keys.Space) && prev_kstate.IsKeyUp(Keys.Space))
             {
                 if (!physics.isJumping && physics.Jump())
@@ -182,7 +193,7 @@ namespace Seraf.XNA.NSECS.Components
                     //Entity.GetComponent<Collider>().Update(delta);
                     //physics.isJumping = true;
                     spriteAnim.SetSprites(anim_jump);
-                    if(sfx_jump.State == SoundState.Playing)
+                    if (sfx_jump.State == SoundState.Playing)
                     {
                         sfx_jump.Stop();
                     }

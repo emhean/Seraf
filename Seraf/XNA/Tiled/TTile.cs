@@ -7,7 +7,7 @@ namespace Seraf.XNA.Tiled
         public int id;
 
         /// <summary>
-        /// Contains position and also used for rendering.
+        /// Contains position and size.
         /// </summary>
         public Rectangle rect;
 

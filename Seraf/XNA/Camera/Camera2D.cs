@@ -68,5 +68,12 @@ namespace Seraf.XNA
                                          Matrix.CreateTranslation(new Vector3(graphicsDevice.Viewport.Width * 0.5f, graphicsDevice.Viewport.Height * 0.5f, 0));
             return _transform;
         }
+
+        // TODO: Do at home.
+        //public Vector2 GetVector2Transformation(Vector2 vector2)
+        //{
+
+        //    Matrix.CreateTranslation()
+        //}
     }
 }

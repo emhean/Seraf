@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Seraf.XNA.Tiled
 {
@@ -19,22 +20,27 @@ namespace Seraf.XNA.Tiled
         ValueType_Color
     }
 
+    [Serializable]
+    [XmlType("property")]
     public struct TProperty
     {
+        [XmlAttribute("name")]
         /// <summary>
         /// The name of this property.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
+        [XmlAttribute("value")]
         /// <summary>
         /// The value of this property. 
         /// </summary>
-        public string Value { get; private set; }
+        public string Value { get; set; }
 
+        [XmlAttribute("type")]
         /// <summary>
         /// The type of this value. Default value type is string because it's parsable at most times.
         /// </summary>
-        public string ValueType { get; private set; }
+        public string ValueType { get; set; }
 
         public TProperty(string name, string value)
         {
@@ -48,6 +54,11 @@ namespace Seraf.XNA.Tiled
             this.Name = name;
             this.Value = value;
             this.ValueType = valueType;
+        }
+
+        public override string ToString()
+        {
+            return string.Concat("Name:", Name, " | Value:", Value);
         }
 
         public TPropertyValueType GetValueType()
@@ -82,14 +93,18 @@ namespace Seraf.XNA.Tiled
         #endregion
     }
 
-    public class TProperties : IEnumerable<TProperty>
+    [Serializable]
+    [XmlType("properties")]
+    public class TProperties
     {
-        private List<TProperty> properties;
+        [XmlElement("property")]
+        public List<TProperty> properties; 
 
         public TProperties()
         {
-            this.properties = new List<TProperty>();
+            properties = new List<TProperty>();
         }
+
 
         /// <summary>
         /// Get/Set accesor. If set and property does not exist, will create it for you.
@@ -161,10 +176,10 @@ namespace Seraf.XNA.Tiled
             throw new Exception("Property does not exist!");
         }
 
-        //internal void Add(object obj)
-        //{
-        //    properties.Add(new TProperty());
-        //}
+        public TProperty GetProperty(int index)
+        {
+            return properties[index];
+        }
 
         public void Add(string name, string value)
         {
@@ -176,16 +191,13 @@ namespace Seraf.XNA.Tiled
             properties.Add(new TProperty(name, value, valueType));
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public void CopyFrom(TProperties properties)
         {
-            foreach (var p in properties)
-                yield return p;
-        }
-
-        IEnumerator<TProperty> IEnumerable<TProperty>.GetEnumerator()
-        {
-            foreach (var p in properties)
-                yield return p;
+            this.properties.Clear();
+            for(int i = 0; i < properties.GetPropertyCount(); ++i)
+            {
+                this.properties.Add(properties.GetProperty(i));
+            }
         }
     }
 }

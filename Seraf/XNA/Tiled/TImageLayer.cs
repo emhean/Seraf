@@ -1,24 +1,46 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+using System.Xml.Serialization;
 
 namespace Seraf.XNA.Tiled
 {
+    [Serializable]
+    [XmlType("imagelayer")]
     public class TImageLayer : ITiledProperties
     {
+        [XmlAttribute("id")]
         public int id;
-        public TImage image;
-        public float opacity;
-        public Vector2 offset;
+
+        [XmlAttribute("name")]
         public string name;
 
-        public TImageLayer(int id, string name, TImage image, Vector2 offset, float opacity)
-        {
-            this.id = id;
-            this.name = name;
-            this.image = image;
-            this.offset = offset;
-            this.opacity = opacity;
-        }
+        [XmlAttribute("visible")]
+        public int visible;
 
-        public TProperties Properties { get; }
+        [XmlAttribute("offsetx")]
+        public int offsetx;
+
+        [XmlAttribute("offsety")]
+        public int offsety;
+
+        public Vector2 offset => new Vector2(offsetx, offsety);
+
+        [XmlAttribute("opacity")]
+        public float opacity = 1.0f;
+
+        [XmlElement("image")]
+        public TImage image;
+
+        public TProperties Properties { get; set; }
+
+        //public TImageLayer(int id, string name, TImage image, Vector2 offset, float opacity)
+        //{
+        //    this.id = id;
+        //    this.name = name;
+        //    this.image = image;
+        //    this.offset = offset;
+        //    this.opacity = opacity;
+        //}
+
     }
 }

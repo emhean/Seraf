@@ -20,6 +20,7 @@ namespace Seraf.XNA.Controls
 
         public object Tag { get; set; }
         public Texture2D Texture { get; set; }
+        public bool IsVisible { get; set; } = true;
 
         protected Rectangle bounds;
         public Rectangle Bounds
@@ -123,9 +124,7 @@ namespace Seraf.XNA.Controls
             prev_mouseState = mouseState;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-
-        }
+        //public abstract void Render(SpriteBatch spriteBatch);
+        public virtual void Render(SpriteBatch spriteBatch) { }
     }
 }

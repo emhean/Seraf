@@ -1,45 +1,33 @@
-﻿namespace Seraf.XNA.Tiled
-{
-    // A tile layer usually looks like:
-    //<layer id = "3" name="Tile Layer 1" width="20" height="20">
-    //<data encoding = "csv" >
-    // tile data ..........................
-    //</data>
-    //</layer>
+﻿using System;
+using System.Xml.Serialization;
 
+namespace Seraf.XNA.Tiled
+{
+    [Serializable]
+    [XmlType("layer")]
     public class TTileLayer : ITiledProperties
     {
+        [XmlAttribute("id")]
         public int id;
+
+        [XmlAttribute("name")]
         public string name;
-        public string encoding; // CSV is only supported right now. Maybe more support for others in the future?
-        public int width, height;
 
-        float opacity; // Use property
+        [XmlElement("data")]
+        public TileData tileData;
 
-        public TTile[,] tiles;
+        [XmlAttribute("width")]
+        public int width;
 
-        public TProperties Properties { get; set; }
+        [XmlAttribute("height")]
+        public int height;
 
-        public TTileLayer(int id, string name, string encoding, int width, int height)
-        {
-            this.id = id;
-            this.name = name;
-            this.encoding = encoding;
-            this.width = width;
-            this.height = height;
-            this.opacity = 1.0f;
-        }
+        /// <summary>
+        /// Use property instead.
+        /// </summary>
+        float opacity = 1.0f;
 
-        public TTileLayer(int id, string name, string encoding, int width, int height, float opacity)
-        {
-            this.id = id;
-            this.name = name;
-            this.encoding = encoding;
-            this.width = width;
-            this.height = height;
-            this.Opacity = opacity;
-        }
-
+        [XmlAttribute("opacity")]
         public float Opacity
         {
             get => opacity;
@@ -53,5 +41,8 @@
             }
         }
 
+
+        [XmlElement("properties")]
+        public TProperties Properties { get; set; } = new TProperties();
     }
 }

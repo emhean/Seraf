@@ -10,17 +10,29 @@ namespace Seraf.XNA.NSECS
             this.Entity = entity;
         }
 
-        public virtual void Initialize(XmlElement e) { } // TODO: Make internal
+        bool isActive = true;
+        bool isVisible = true;
+        public bool IsActive { get => isActive; set => isActive = value; }
+        public bool IsVisible { get => isVisible; set => isVisible = value; }
+        public bool Expired { get; private set; }
+        /// <summary>
+        /// If this is enabled then debug stuff will happen.
+        /// </summary>
+        public bool DebugMode { get; set; } = true; 
 
-        public bool Enabled { get; set; } = true;
+        /// <summary>
+        /// Component is initialized after when fully constructed.
+        /// </summary>
+        public virtual void Initialize(XmlElement e) { } // TODO: Make internal?
 
-        public event EventHandler BeforeExpired, AfterExpired;
+        public event EventHandler BeforeExpired;
+        public event EventHandler AfterExpired;
 
         public virtual void Update(float delta) { }
         public virtual void Render(Scene scene) { }
 
         /// <summary>
-        /// The entity instance that holds this component.
+        /// The entity that holds this component.
         /// </summary>
         public Entity Entity { get; private set; }
 
@@ -35,10 +47,10 @@ namespace Seraf.XNA.NSECS
             IsExpired = true;
             AfterExpired?.Invoke(this, EventArgs.Empty);
         }
-        
-        /// <summary>
-        /// Set the Entity that owns this component.
-        /// </summary>
+
+        ///// <summary>
+        ///// Set the Entity that owns this component.
+        ///// </summary>
         public void SetEntity(Entity entity)
         {
             this.Entity = entity;

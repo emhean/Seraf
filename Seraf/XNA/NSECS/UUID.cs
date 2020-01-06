@@ -4,7 +4,7 @@ namespace Seraf.XNA.NSECS
 {
     public class UUID
     {
-        int uuid_size = 1000;
+        int uuid_size = 100;
         Dictionary<int, bool> uuid_dict;
 
         public UUID()

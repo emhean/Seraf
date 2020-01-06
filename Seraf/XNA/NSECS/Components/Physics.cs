@@ -23,16 +23,21 @@ namespace Seraf.XNA.NSECS.Components
 
             if (jump <= 0)
             {
-                jump = -5;
-                Entity.pos.Y -= 2; // Counter gravity for the first frame.
-
-                isJumping = true;
-                isFalling = false;
-
+                _Jump();
                 return true;
             }
 
             return false;
+        }
+
+        public void ForceJump() => _Jump();
+
+        private void _Jump()
+        {
+            jump = -5;
+            Entity.pos.Y -= 2; // Counter gravity for the first frame.
+            isJumping = true;
+            isFalling = false;
         }
 
         public void Land()

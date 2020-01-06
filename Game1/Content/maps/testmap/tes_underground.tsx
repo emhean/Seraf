@@ -3,12 +3,12 @@
  <image source="tes_underground.png" width="32" height="32"/>
  <tile id="0">
   <objectgroup draworder="index">
-   <object id="1" x="0" y="0" width="8" height="8"/>
+   <object id="1" x="0" y="0" width="8" height="4"/>
   </objectgroup>
  </tile>
  <tile id="1">
   <objectgroup draworder="index">
-   <object id="1" x="0" y="0" width="8" height="8"/>
+   <object id="1" x="4" y="0" width="4" height="8"/>
   </objectgroup>
  </tile>
  <tile id="2">
@@ -43,7 +43,8 @@
  </tile>
  <tile id="8">
   <objectgroup draworder="index">
-   <object id="1" x="0" y="0" width="8" height="8"/>
+   <object id="1" x="0" y="0" width="4" height="4"/>
+   <object id="2" x="4" y="4" width="4" height="4"/>
   </objectgroup>
  </tile>
  <tile id="9">

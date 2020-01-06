@@ -67,7 +67,18 @@
     <Compile Include="XNA\Controls\Control.cs" />
     <Compile Include="XNA\Controls\ControlGroup.cs" />
     <Compile Include="XNA\Controls\Text.cs" />
+    <Compile Include="XNA\Debug\TileCursor.cs" />
+    <Compile Include="XNA\InventoryLogic.cs" />
+    <Compile Include="XNA\NSECS\Actor.cs" />
     <Compile Include="XNA\NSECS\Components\Collectible.cs" />
+    <Compile Include="XNA\NSECS\Components\Inventory.cs" />
+    <Compile Include="XNA\TextRenderer.cs" />
+    <Compile Include="XNA\FileManager.cs" />
+    <Compile Include="XNA\Tiled\TileData.cs" />
+    <Compile Include="XNA\Tiled\TTileAnimation.cs" />
+    <Compile Include="XNA\Tiled\TTileAnimationFrame.cs" />
+    <Compile Include="XNA\Tiled\TTileMapManager.cs" />
+    <Compile Include="XNA\Tiled\TUtilities.cs" />
     <Compile Include="XNA\Unused\Blueprints\Coin.cs" />
     <Compile Include="XNA\Unused\Blueprints\Crate.cs" />
     <Compile Include="XNA\Unused\Body.cs" />
@@ -111,8 +122,6 @@
     <Compile Include="XNA\Tiled\TTile.cs" />
     <Compile Include="XNA\Tiled\TTileLayer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="XNA\NSECS\Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

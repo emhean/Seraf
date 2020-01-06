@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity>
+<components>
+  <collectible id="coin" value="1" text="The root of all evil."/>
+  <collider></collider>
+  <physics></physics>
+  
+    <anim name="spin" texture="sprites/coin">
+    <sprite x="0" y="0" width="8" height="8"/>
+    <sprite x="8" y="0" width="8" height="8"/>
+    <sprite x="16" y="0" width="8" height="8"/>
+    <sprite x="24" y="0" width="8" height="8"/>
+    <sprite x="32" y="0" width="8" height="8"/>
+    <sprite x="40" y="0" width="8" height="8"/>
+  </anim>
+  
+</components>
+</entity>

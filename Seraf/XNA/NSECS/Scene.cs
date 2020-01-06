@@ -15,7 +15,8 @@ namespace Seraf.XNA.NSECS
             this.Controls = new List<Control>();
         }
 
-        public List<Control> Controls { get; set; } 
+        public List<Entity> Entities { get; set; }
+        public List<Control> Controls { get; set; }
         public GraphicsDevice GraphicsDevice { get; }
         public SpriteBatch SpriteBatch { get; }
         public Camera2D Camera { get; set; }
@@ -41,18 +42,31 @@ namespace Seraf.XNA.NSECS
                 c.Update(delta, Mouse.GetState());
         }
 
-        public void RenderControls()
+        public void RenderControls() // TODO: Move this into Engine.Render(scene)
         {
-            //SpriteBatch.Draw(c.Texture, c.Bounds, Color.White);
-
-            //if (c is Button button)
-            //{
-            //    SpriteBatch.DrawString(button.Text.Font, button.Text, button.Text.GetVector2(), Color.Black);
-            //}
-
             foreach (var c in Controls)
-                c.Draw(SpriteBatch);
-            
+                if(c.IsVisible)
+                    c.Render(SpriteBatch);
+        }
+
+        public void RenderEntities()
+        {
+            for (int i = 0; i < Entities.Count; ++i)
+            {
+                if (Entities[i].IsVisible)
+                {
+                    for (int j = 0; j < Entities[i].GetComponentCount(); ++j)
+                    {
+                        Entities[i][j].Render(this);
+                    }
+                }
+            }
+        }
+
+
+        public void RenderControl(Control control)
+        {
+            control.Render(this.SpriteBatch);
         }
 
         public void Clear()

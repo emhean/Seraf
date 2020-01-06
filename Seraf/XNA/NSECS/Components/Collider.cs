@@ -14,7 +14,7 @@ namespace Seraf.XNA.NSECS
 
         public Collider(Entity entity) : base(entity)
         {
-            rect = new Rectangle((int)entity.pos.X, (int)entity.pos.Y, (int)entity.size.X, (int)entity.size.Y);
+            this.rect = new Rectangle((int)entity.pos.X, (int)entity.pos.Y, (int)entity.size.X, (int)entity.size.Y);
         }
 
         public override void Initialize(XmlElement e)
@@ -28,14 +28,33 @@ namespace Seraf.XNA.NSECS
                     else if (eve.GetAttribute("invoke").Equals("GetCollected"))
                         this.Collided += GetCollected;
                 }
-                    
-
             }
+        }
+
+        /// <summary>
+        /// Sets position and updates the collider.
+        /// </summary>
+        public void SetPosition(Vector2 position)
+        {
+            Entity.pos.X = position.X;
+            Entity.pos.Y = position.Y;
+            rect.X = (int)position.X;
+            rect.Y = (int)position.Y;
+        }
+        /// <summary>
+        /// Sets position and updates the collider.
+        /// </summary>
+        public void SetPosition(int x, int y)
+        {
+            Entity.pos.X = x;
+            Entity.pos.Y = y;
+            rect.X = x;
+            rect.Y = y;
         }
 
         public override void Update(float delta)
         {
-            if (!Enabled)
+            if (!IsActive)
                 return;
 
             //rect.X = (int)Math.Ceiling(Entity.pos.X);
@@ -120,11 +139,17 @@ namespace Seraf.XNA.NSECS
         /// </summary>
         public COLLISION_SIDE GetIntersectionSide(Collider other) => GetIntersectionSide(other.rect);
 
+        #region Debug stuff
         Texture2D tex = ContentPipeline.Instance.Load<Texture2D>("sprites/box");
         public override void Render(Scene scene)
         {
-            scene.SpriteBatch.Draw(tex, rect, Color.Red * 0.2f);
+            if(DebugMode)
+            {
+                scene.SpriteBatch.Draw(tex, rect, Color.Red * 0.2f);
+            }
         }
+
+        #endregion
     }
 
 

@@ -1,44 +1,29 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+using System;
+using System.Xml.Serialization;
 
 namespace Seraf.XNA.Tiled
 {
-    //<objectgroup draworder="index">
-    //<object id="1" x="0" y="0" width="8" height="4"/>
-    //</objectgroup>
-    public struct TTileDataAnim
+    public class TTileData : ITiledProperties
     {
-        public int anim_ms;
-        public int tile_id;
-
-        public TTileDataAnim(int tile_id, int anim_ms)
-        {
-            this.tile_id = tile_id;
-            this.anim_ms = anim_ms;
-        }
-    }
-
-    public struct TTileData : ITiledProperties
-    {
+        [XmlAttribute("id")]
         public int id; // usually same as index
 
+        [XmlAttribute("type")]
         public string type;
-        public Rectangle[] bounds;
-        public Rectangle[] clip;
 
-        public TTileDataAnim[] tileDataAnims;
+        [XmlElement("objectgroup")]
+        public TObjectGroup bounds;
+        
+        [XmlIgnore()]
+        public Rectangle clip;
 
-        public TTileData(int id, string type, Rectangle[] bounds, Rectangle[] clip, TTileDataAnim[] tileDataAnims, TProperties properties)
-        {
-            this.id = id;
-            this.type = type;
-            this.bounds = bounds;
-            this.clip = clip;
-            this.tileDataAnims = tileDataAnims;
-            this.Properties = properties;
-        }
+        [XmlElement("animation")]
+        public TTileAnimation tileAnimData;
 
-        public TProperties Properties { get; }
+        [XmlElement("properties")]
+        public TProperties Properties { get; set; }
+
 
         public override string ToString() => string.Concat("id:", id, ", bounds:", bounds);
     }

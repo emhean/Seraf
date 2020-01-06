@@ -56,9 +56,11 @@ namespace Seraf.XNA.Controls
                     textAlignX = value;
 
                     if (textAlignX == TextAlignX.Left)
-                        this.bounds.X = this.Parent.Bounds.X + ((int)GetTextSize().X);
+                        this.bounds.X = this.Parent.Bounds.X; // + ((int)GetTextSize().X);
+
                     else if (textAlignX == TextAlignX.Right)
                         this.bounds.X = this.Parent.Bounds.X + ((int)GetTextSize().X);
+
                     else if (textAlignX == TextAlignX.Center)
                         this.bounds.X = this.Parent.Bounds.Center.X - ((int)GetTextSize().X / 2);
 
@@ -77,8 +79,10 @@ namespace Seraf.XNA.Controls
 
                     if (textAlignY == TextAlignY.Center)
                         this.bounds.Y = this.Parent.Bounds.Center.Y - ((int)GetFontSize().Y / 2);
+
                     else if (textAlignY == TextAlignY.Top)
-                        this.bounds.Y = this.Parent.Bounds.Y + (int)GetFontSize().Y;
+                        this.bounds.Y = this.Parent.Bounds.Y;// + (int)GetFontSize().Y;
+
                     else if (textAlignY == TextAlignY.Bottom)
                         this.bounds.Y = this.Parent.Bounds.Y + (int)GetFontSize().Y;
 
